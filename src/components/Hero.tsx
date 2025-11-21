@@ -19,15 +19,16 @@ const Hero = () => {
       <div className="container mx-auto px-4 z-10 text-center animate-fade-in-up">
         <div className="max-w-4xl mx-auto space-y-8">
           <h1 className="text-5xl md:text-7xl font-bold text-foreground">
-            Engineering
-            <span className="block mt-2 bg-gradient-accent bg-clip-text text-transparent">
-              Innovation & Design
+            <span className="block bg-gradient-accent bg-clip-text text-transparent">
+              Mae Sliwinski
+            </span>
+            <span className="block mt-2 text-4xl md:text-5xl">
+              Engineering Portfolio
             </span>
           </h1>
           
           <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto">
-            Full-stack engineer crafting elegant solutions to complex problems.
-            Specialized in web technologies, system design, and user experience.
+            Mechanical Engineering senior applying human-factors design principles to create thoughtful, innovative solutions in product development and team leadership.
           </p>
 
           <div className="flex flex-wrap gap-4 justify-center pt-4">
@@ -43,15 +44,7 @@ const Hero = () => {
 
           <div className="flex gap-4 justify-center pt-8">
             <a
-              href="https://github.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-3 rounded-full bg-secondary hover:bg-accent hover:text-accent-foreground transition-all duration-300 hover:scale-110"
-            >
-              <Github className="w-5 h-5" />
-            </a>
-            <a
-              href="https://linkedin.com"
+              href="https://www.linkedin.com/in/mae-sliwinski"
               target="_blank"
               rel="noopener noreferrer"
               className="p-3 rounded-full bg-secondary hover:bg-accent hover:text-accent-foreground transition-all duration-300 hover:scale-110"
@@ -59,7 +52,7 @@ const Hero = () => {
               <Linkedin className="w-5 h-5" />
             </a>
             <a
-              href="mailto:hello@example.com"
+              href="mailto:mgs263@cornell.edu"
               className="p-3 rounded-full bg-secondary hover:bg-accent hover:text-accent-foreground transition-all duration-300 hover:scale-110"
             >
               <Mail className="w-5 h-5" />

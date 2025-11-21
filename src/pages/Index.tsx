@@ -1,15 +1,17 @@
 import Hero from "@/components/Hero";
+import About from "@/components/About";
 import Projects from "@/components/Projects";
 import Skills from "@/components/Skills";
-import Contact from "@/components/Contact";
+import Resume from "@/components/Resume";
 
 const Index = () => {
   return (
     <div className="min-h-screen">
       <Hero />
+      <About />
       <Projects />
       <Skills />
-      <Contact />
+      <Resume />
       
       {/* Footer */}
       <footer className="py-8 bg-card border-t border-border/50">

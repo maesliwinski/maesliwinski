@@ -1,38 +1,35 @@
 import { Button } from "@/components/ui/button";
-import { Mail, Linkedin, Github } from "lucide-react";
+import { Mail, Linkedin, Github, ChevronDown } from "lucide-react";
+import { useState } from "react";
+import penHoldersImg from "@/assets/pen-holders.jpg";
+import tableBuiltImg from "@/assets/table-built.jpg";
 
 const projects = [
   {
     id: 1,
-    title: "Assistive Technologies",
-    description: "Leading cross-functional team of 40+ engineers to develop 5+ high-impact assistive technology solutions",
-    color: "sage",
-    tags: ["CAD", "Product Design", "Team Leadership"],
+    title: "Assistive Pen Holders",
+    description: "Designed pen holders in Fusion360 for children with motor disabilities to stabilize writing. My design eliminated the need for a screwdriver to change the pen, promoting independence and ease of use.",
+    fullDescription: "In Fall 2023 I designed a pen holder in Fusion360 for children with motor disabilities to stabilize writing as requested by a family local to my University. My design eliminated the need for a screwdriver to change the pen that existing solutions had, thus promoting independence and ease of use. The increased surface area helps provide grip control.\n\nFor this project, I learned features such as Section Analysis to verify that my threads were within tolerance of the selected screw. I also used the assembly features to demonstrate the use of the product before manufacturing with a Prusa 3D Printer with PLA for the lightweight versatility. The bright colors selected are for students that are low-vision to provide a bright contrast.\n\nThe family I partnered with for this project gave the pen holders to their local school.",
+    color: "purple",
+    tags: ["3D Printing (Prusa)", "CAD (Autodesk Fusion360)"],
+    image: penHoldersImg,
+    organization: "Cornell Assistive Technologies"
   },
   {
     id: 2,
-    title: "Soft Robotics Research",
-    description: "Characterizing elastomer membranes for underground digging soft robot using FEA and experimental testing",
-    color: "purple",
-    tags: ["SolidWorks", "FEA", "3D Printing"],
-  },
-  {
-    id: 3,
-    title: "Amazon Process Engineering",
-    description: "Developed AI-based browser tool improving efficiency metrics, increasing uptime by 16%",
-    color: "blue",
-    tags: ["JavaScript", "AI", "Process Engineering"],
-  },
-  {
-    id: 4,
-    title: "Manufacturing Studio Training",
-    description: "Training 30+ students in machine shop operations serving 5000+ students",
-    color: "orange",
-    tags: ["Machining", "Technical Training", "Safety"],
+    title: "Custom Wheelchair Table",
+    description: "Created a custom table that interfaces with a custom wheelchair using low-cost, lightweight materials like acrylic and aluminum extrusions for easy mobility.",
+    fullDescription: "In Fall 2024, I received a request from Finger Lakes Independence Center to make a custom table that interfaces with a custom wheelchair. My design focuses on using low-cost, lightweight materials, such as acrylic and aluminum extrusions, so that the user can push away the chair with minimum effort based on his condition.\n\nThe final result differs from the designed version as my team and I made quick iterations in order to deliver the project by the promised date. One of these changes was including washers under the bolts that secure the acrylic table top to prevent the stress fracture of the table top and secure it into place without an epoxy.",
+    color: "sage",
+    tags: ["Autodesk Fusion360", "Power Tools (Drill, Band Saw)", "Laser Cutter"],
+    image: tableBuiltImg,
+    organization: "Cornell Assistive Technologies"
   },
 ];
 
 const Index = () => {
+  const [selectedProject, setSelectedProject] = useState<number | null>(null);
+
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     element?.scrollIntoView({ behavior: "smooth" });
@@ -51,37 +48,42 @@ const Index = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section id="home" className="min-h-screen flex flex-col items-center justify-center px-4">
+      <section id="home" className="min-h-screen flex flex-col items-center justify-center px-4 relative">
         <div className="text-center space-y-12 animate-fade-in">
           <h1 className="text-6xl md:text-8xl font-agrandir font-normal tracking-tight">
             Mae Sliwinski
             <br />
-            <span className="text-3xl md:text-4xl">Engineering Portfolio</span>
+            <span className="text-3xl md:text-4xl font-light">Engineering Portfolio</span>
           </h1>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button
               size="lg"
               onClick={() => scrollToSection("about")}
-              className="min-w-[200px] h-14 rounded-full bg-sage hover:bg-sage/80 text-foreground text-lg font-normal"
+              className="min-w-[200px] h-14 rounded-full bg-sage hover:bg-sage/80 text-foreground text-lg font-normal border-2 border-foreground"
             >
               About Me
             </Button>
             <Button
               size="lg"
               onClick={() => scrollToSection("projects")}
-              className="min-w-[200px] h-14 rounded-full bg-purple hover:bg-purple/80 text-foreground text-lg font-normal"
+              className="min-w-[200px] h-14 rounded-full bg-purple hover:bg-purple/80 text-foreground text-lg font-normal border-2 border-foreground"
             >
               Projects
             </Button>
             <Button
               size="lg"
               onClick={() => scrollToSection("cv")}
-              className="min-w-[200px] h-14 rounded-full bg-blue hover:bg-blue/80 text-foreground text-lg font-normal"
+              className="min-w-[200px] h-14 rounded-full bg-blue hover:bg-blue/80 text-foreground text-lg font-normal border-2 border-foreground"
             >
               CV
             </Button>
           </div>
+        </div>
+        
+        {/* Scroll indicator */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+          <ChevronDown className="h-8 w-8 text-foreground/60" />
         </div>
       </section>
 
@@ -137,27 +139,47 @@ const Index = () => {
         <div className="max-w-6xl mx-auto space-y-12 animate-fade-in-up">
           <h2 className="text-5xl md:text-7xl font-agrandir">Projects</h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6">
+          <div className="grid grid-cols-1 gap-6 pt-6">
             {projects.map((project, index) => (
-              <div
-                key={project.id}
-                className={`p-8 rounded-3xl border-2 transition-all hover:scale-105 hover:shadow-lg animate-scale-in ${getColorClasses(
-                  project.color
-                )}`}
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <h3 className="text-2xl font-agrandir mb-3">{project.title}</h3>
-                <p className="text-base mb-4 text-muted-foreground">{project.description}</p>
-                <div className="flex flex-wrap gap-2">
-                  {project.tags.map((tag, tagIndex) => (
-                    <span
-                      key={tagIndex}
-                      className="px-3 py-1 text-sm rounded-full bg-background/50"
-                    >
-                      {tag}
-                    </span>
-                  ))}
+              <div key={project.id}>
+                <div
+                  onClick={() => setSelectedProject(selectedProject === project.id ? null : project.id)}
+                  className={`p-6 rounded-3xl border-2 transition-all hover:scale-[1.02] hover:shadow-lg animate-scale-in cursor-pointer ${getColorClasses(
+                    project.color
+                  )}`}
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                >
+                  <div className="flex gap-6 items-start">
+                    <img 
+                      src={project.image} 
+                      alt={project.title}
+                      className="w-32 h-32 object-cover rounded-2xl flex-shrink-0"
+                    />
+                    <div className="flex-1">
+                      <p className="text-sm text-muted-foreground mb-1">{project.organization}</p>
+                      <h3 className="text-2xl font-agrandir mb-2">{project.title}</h3>
+                      <p className="text-base mb-4">{project.description}</p>
+                      <div className="flex flex-wrap gap-2">
+                        {project.tags.map((tag, tagIndex) => (
+                          <span
+                            key={tagIndex}
+                            className="px-3 py-1 text-sm rounded-full bg-background/50"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
                 </div>
+                
+                {selectedProject === project.id && (
+                  <div className={`mt-4 p-6 rounded-3xl border-2 animate-fade-in ${getColorClasses(project.color)}`}>
+                    <div className="whitespace-pre-line text-base">
+                      {project.fullDescription}
+                    </div>
+                  </div>
+                )}
               </div>
             ))}
           </div>

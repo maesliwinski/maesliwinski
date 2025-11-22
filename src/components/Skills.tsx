@@ -4,33 +4,33 @@ import { Code2, Database, Cloud, Smartphone, Wrench, Globe } from "lucide-react"
 const skillCategories = [
   {
     icon: Code2,
-    title: "CAD & Design Software",
-    skills: ["SolidWorks", "Autodesk Inventor", "Fusion 360", "AutoCAD Revit", "Ansys", "Adobe Suite"],
-  },
-  {
-    icon: Wrench,
-    title: "Manufacturing & Prototyping",
-    skills: ["3D Printing (Prusa, Figure 4, Bambu)", "CNC Machining", "Mill & Lathe", "Rapid Prototyping", "GD&T"],
+    title: "Frontend Development",
+    skills: ["React", "TypeScript", "Vue.js", "Next.js", "Tailwind CSS", "Redux"],
   },
   {
     icon: Database,
-    title: "Analysis & Simulation",
-    skills: ["FEA", "MATLAB", "DFM", "System Dynamics", "Materials Analysis", "Heat Transfer"],
-  },
-  {
-    icon: Code2,
-    title: "Programming & Electronics",
-    skills: ["Python", "MATLAB", "LabVIEW", "Arduino C++", "JavaScript", "PCB Design"],
-  },
-  {
-    icon: Globe,
-    title: "Engineering Principles",
-    skills: ["Mechanical Design", "Fluid Mechanics", "Statics & Mechanics", "Mechatronics", "Materials Science"],
+    title: "Backend & Databases",
+    skills: ["Node.js", "Python", "PostgreSQL", "MongoDB", "Redis", "GraphQL"],
   },
   {
     icon: Cloud,
-    title: "Project Management",
-    skills: ["Lean Six Sigma", "Problem Solving", "Team Leadership", "Budget Management", "Communication"],
+    title: "Cloud & DevOps",
+    skills: ["AWS", "Docker", "Kubernetes", "CI/CD", "Terraform", "GitHub Actions"],
+  },
+  {
+    icon: Smartphone,
+    title: "Mobile Development",
+    skills: ["React Native", "Flutter", "iOS", "Android", "Mobile UI/UX"],
+  },
+  {
+    icon: Globe,
+    title: "Web Technologies",
+    skills: ["REST APIs", "WebSocket", "OAuth", "SEO", "PWA", "Web Performance"],
+  },
+  {
+    icon: Wrench,
+    title: "Tools & Practices",
+    skills: ["Git", "Agile", "TDD", "Code Review", "System Design", "Microservices"],
   },
 ];
 

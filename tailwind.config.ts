@@ -13,6 +13,9 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        agrandir: ['Agrandir', 'system-ui', 'sans-serif'],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -57,26 +60,11 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
-        slate: {
-          dark: "hsl(var(--slate-dark))",
-          medium: "hsl(var(--slate-medium))",
-          light: "hsl(var(--slate-light))",
-        },
-        cyan: {
-          accent: "hsl(var(--cyan-accent))",
-          light: "hsl(var(--cyan-light))",
-        },
-      },
-      backgroundImage: {
-        "gradient-hero": "var(--gradient-hero)",
-        "gradient-card": "var(--gradient-card)",
-        "gradient-accent": "var(--gradient-accent)",
-      },
-      boxShadow: {
-        sm: "var(--shadow-sm)",
-        md: "var(--shadow-md)",
-        lg: "var(--shadow-lg)",
-        glow: "var(--shadow-glow)",
+        cream: "hsl(var(--cream))",
+        sage: "hsl(var(--sage-green))",
+        purple: "hsl(var(--soft-purple))",
+        orange: "hsl(var(--warm-orange))",
+        blue: "hsl(var(--sky-blue))",
       },
       borderRadius: {
         lg: "var(--radius)",

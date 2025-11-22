@@ -3,13 +3,21 @@ import { Mail, Linkedin, Github, ChevronDown } from "lucide-react";
 import { useState } from "react";
 import penHoldersImg from "@/assets/pen-holders.jpg";
 import tableBuiltImg from "@/assets/table-built.jpg";
+import penHolderCloseupImg from "@/assets/pen-holder-closeup.jpg";
+import penHolderRenderImg from "@/assets/pen-holder-render.png";
+import wheelchairTableUseImg from "@/assets/wheelchair-table-use.jpg";
+import tableRenderImg from "@/assets/table-render.png";
+import headshotImg from "@/assets/headshot.jpg";
+import tubeFittingsImg from "@/assets/tube-fittings.jpg";
 
 const projects = [
   {
     id: 1,
     title: "Assistive Pen Holders",
     description: "Designed pen holders in Fusion360 for children with motor disabilities to stabilize writing. My design eliminated the need for a screwdriver to change the pen, promoting independence and ease of use.",
-    fullDescription: "In Fall 2023 I designed a pen holder in Fusion360 for children with motor disabilities to stabilize writing as requested by a family local to my University. My design eliminated the need for a screwdriver to change the pen that existing solutions had, thus promoting independence and ease of use. The increased surface area helps provide grip control.\n\nFor this project, I learned features such as Section Analysis to verify that my threads were within tolerance of the selected screw. I also used the assembly features to demonstrate the use of the product before manufacturing with a Prusa 3D Printer with PLA for the lightweight versatility. The bright colors selected are for students that are low-vision to provide a bright contrast.\n\nThe family I partnered with for this project gave the pen holders to their local school.",
+    fullDescription: "In Fall 2023 I designed a pen holder in Fusion360 for children with motor disabilities to stabilize writing as requested by a family local to my University. My design eliminated the need for a screwdriver to change the pen that existing solutions had, thus promoting independence and ease of use. The increased surface area helps provide grip control.",
+    additionalImages: [penHolderCloseupImg, penHolderRenderImg],
+    additionalText: "For this project, I learned features such as Section Analysis to verify that my threads were within tolerance of the selected screw. I also used the assembly features to demonstrate the use of the product before manufacturing with a Prusa 3D Printer with PLA for the lightweight versatility. The bright colors selected are for students that are low-vision to provide a bright contrast.\n\nThe family I partnered with for this project gave the pen holders to their local school.",
     color: "purple",
     tags: ["3D Printing (Prusa)", "CAD (Autodesk Fusion360)"],
     image: penHoldersImg,
@@ -19,11 +27,33 @@ const projects = [
     id: 2,
     title: "Custom Wheelchair Table",
     description: "Created a custom table that interfaces with a custom wheelchair using low-cost, lightweight materials like acrylic and aluminum extrusions for easy mobility.",
-    fullDescription: "In Fall 2024, I received a request from Finger Lakes Independence Center to make a custom table that interfaces with a custom wheelchair. My design focuses on using low-cost, lightweight materials, such as acrylic and aluminum extrusions, so that the user can push away the chair with minimum effort based on his condition.\n\nThe final result differs from the designed version as my team and I made quick iterations in order to deliver the project by the promised date. One of these changes was including washers under the bolts that secure the acrylic table top to prevent the stress fracture of the table top and secure it into place without an epoxy.",
+    fullDescription: "In Fall 2024, I received a request from Finger Lakes Independence Center to make a custom table that interfaces with a custom wheelchair. My design focuses on using low-cost, lightweight materials, such as acrylic and aluminum extrusions, so that the user can push away the chair with minimum effort based on his condition.",
+    additionalImages: [wheelchairTableUseImg, tableRenderImg],
+    additionalText: "The final result differs from the designed version as my team and I made quick iterations in order to deliver the project by the promised date. One of these changes was including washers under the bolts that secure the acrylic table top to prevent the stress fracture of the table top and secure it into place without an epoxy.",
     color: "sage",
     tags: ["Autodesk Fusion360", "Power Tools (Drill, Band Saw)", "Laser Cutter"],
     image: tableBuiltImg,
     organization: "Cornell Assistive Technologies"
+  },
+  {
+    id: 3,
+    title: "Flame Arrestor Tube Fitting",
+    description: "Fabricated tube fittings for experiments to regulate the backflow propagation of combustion products",
+    fullDescription: "Fabricated tube fittings for experiments to regulate the backflow propagation of combustion products",
+    color: "blue",
+    tags: ["SolidWorks", "3D Printing (Figure 4)", "Hand Calculations"],
+    image: tubeFittingsImg,
+    organization: "Organic Robotics Laboratory"
+  },
+  {
+    id: 4,
+    title: "TumbleTote Laundry Caddy",
+    description: "Dorm room and apartment laundry organization system for people on the go",
+    fullDescription: "Dorm room and apartment laundry organization system for people on the go",
+    color: "orange",
+    tags: ["Voice of Customer", "3D Modeling (Blender)", "Rapid Prototyping (Hand tools, sewing)"],
+    image: "https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?w=400&h=400&fit=crop",
+    organization: "MAE 4341 - Innovative Product Design via Digital Manufacturing"
   },
 ];
 
@@ -92,13 +122,20 @@ const Index = () => {
         <div className="max-w-4xl mx-auto space-y-12 animate-fade-in-up">
           <h2 className="text-5xl md:text-7xl font-agrandir">About Me</h2>
           
-          <div className="space-y-6 text-lg">
-            <p>
-              I am a senior studying Mechanical Engineering at Cornell University. I love applying human-factors engineering design principles to my experiences from coursework, research, and on-the-job scenarios.
-            </p>
-            <p>
-              My specialties lie in design, product development, and people management. I've led and managed teams from 50-120+ people to create and implement solutions that are thoughtful, innovative, and drive productivity.
-            </p>
+          <div className="flex flex-col md:flex-row gap-8 items-start">
+            <img 
+              src={headshotImg} 
+              alt="Mae Sliwinski"
+              className="w-48 h-48 rounded-full object-cover border-2 border-foreground flex-shrink-0"
+            />
+            <div className="space-y-6 text-lg flex-1">
+              <p>
+                I am a senior studying Mechanical Engineering at Cornell University. I love applying human-factors engineering design principles to my experiences from coursework, research, and on-the-job scenarios.
+              </p>
+              <p>
+                My specialties lie in design, product development, and people management. I've led and managed teams from 50-120+ people to create and implement solutions that are thoughtful, innovative, and drive productivity.
+              </p>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-8">
@@ -124,7 +161,7 @@ const Index = () => {
             <a href="mailto:mgs263@cornell.edu" className="p-4 rounded-full bg-sage/20 border-2 border-sage hover:bg-sage/30 transition-all">
               <Mail className="h-6 w-6" />
             </a>
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="p-4 rounded-full bg-purple/20 border-2 border-purple hover:bg-purple/30 transition-all">
+            <a href="https://www.linkedin.com/in/mae-sliwinski-771a76237/" target="_blank" rel="noopener noreferrer" className="p-4 rounded-full bg-purple/20 border-2 border-purple hover:bg-purple/30 transition-all">
               <Linkedin className="h-6 w-6" />
             </a>
             <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="p-4 rounded-full bg-blue/20 border-2 border-blue hover:bg-blue/30 transition-all">
@@ -175,8 +212,25 @@ const Index = () => {
                 
                 {selectedProject === project.id && (
                   <div className={`mt-4 p-6 rounded-3xl border-2 animate-fade-in ${getColorClasses(project.color)}`}>
-                    <div className="whitespace-pre-line text-base">
-                      {project.fullDescription}
+                    <div className="space-y-6">
+                      <p className="text-base whitespace-pre-line">{project.fullDescription}</p>
+                      
+                      {project.additionalImages && project.additionalImages.length > 0 && (
+                        <div className="grid grid-cols-2 gap-4">
+                          {project.additionalImages.map((img, idx) => (
+                            <img 
+                              key={idx}
+                              src={img} 
+                              alt={`${project.title} detail ${idx + 1}`}
+                              className="w-full h-48 object-cover rounded-2xl"
+                            />
+                          ))}
+                        </div>
+                      )}
+                      
+                      {project.additionalText && (
+                        <p className="text-base whitespace-pre-line">{project.additionalText}</p>
+                      )}
                     </div>
                   </div>
                 )}

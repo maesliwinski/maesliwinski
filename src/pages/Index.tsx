@@ -80,8 +80,8 @@ const Index = () => {
     <div className="min-h-screen">
       {/* Hero Section */}
       <section id="home" className="min-h-screen flex flex-col items-center justify-center px-4 relative">
-        <div className="text-center space-y-12 animate-fade-in">
-          <h1 className="text-6xl md:text-8xl font-agrandir font-normal tracking-tight">
+        <div className="text-center space-y-12">
+          <h1 className="text-6xl md:text-8xl font-agrandir font-normal tracking-tight animate-fade-in">
             Mae Sliwinski
             <br />
             <span className="text-3xl md:text-4xl font-light">Engineering Portfolio</span>
@@ -91,21 +91,24 @@ const Index = () => {
             <Button
               size="lg"
               onClick={() => scrollToSection("about")}
-              className="min-w-[200px] h-14 rounded-full bg-sage hover:bg-sage/80 text-foreground text-lg font-normal border-2 border-foreground"
+              className="min-w-[200px] h-14 rounded-full bg-sage hover:bg-sage/80 text-foreground text-lg font-normal border-2 border-foreground animate-scale-in"
+              style={{ animationDelay: '0.3s', animationFillMode: 'both' }}
             >
               About Me
             </Button>
             <Button
               size="lg"
               onClick={() => scrollToSection("projects")}
-              className="min-w-[200px] h-14 rounded-full bg-purple hover:bg-purple/80 text-foreground text-lg font-normal border-2 border-foreground"
+              className="min-w-[200px] h-14 rounded-full bg-purple hover:bg-purple/80 text-foreground text-lg font-normal border-2 border-foreground animate-scale-in"
+              style={{ animationDelay: '0.5s', animationFillMode: 'both' }}
             >
               Projects
             </Button>
             <Button
               size="lg"
               onClick={() => scrollToSection("cv")}
-              className="min-w-[200px] h-14 rounded-full bg-blue hover:bg-blue/80 text-foreground text-lg font-normal border-2 border-foreground"
+              className="min-w-[200px] h-14 rounded-full bg-blue hover:bg-blue/80 text-foreground text-lg font-normal border-2 border-foreground animate-scale-in"
+              style={{ animationDelay: '0.7s', animationFillMode: 'both' }}
             >
               CV
             </Button>

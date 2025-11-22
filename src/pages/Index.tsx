@@ -247,10 +247,7 @@ const Index = () => {
           <h2 className="text-5xl md:text-7xl font-agrandir">Curriculum Vitae</h2>
 
           {/* Objective */}
-          <div className="p-6 rounded-3xl bg-background/50 border-2 border-foreground">
-            <h3 className="text-2xl font-agrandir mb-3">Objective</h3>
-            <p className="text-base">Seeking a full-time position for June 2026</p>
-          </div>
+          <p className="text-lg"><span className="font-agrandir text-xl">Objective:</span> Seeking a full-time position for June 2026</p>
 
           {/* Experience */}
           <div className="space-y-8">

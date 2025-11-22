@@ -9,6 +9,7 @@ import wheelchairTableUseImg from "@/assets/wheelchair-table-use.jpg";
 import tableRenderImg from "@/assets/table-render.png";
 import headshotImg from "@/assets/headshot.jpg";
 import tubeFittingsImg from "@/assets/tube-fittings.jpg";
+import tumbleToteImg from "@/assets/tumbletote.png";
 
 const projects = [
   {
@@ -52,7 +53,7 @@ const projects = [
     fullDescription: "Dorm room and apartment laundry organization system for people on the go",
     color: "orange",
     tags: ["Voice of Customer", "3D Modeling (Blender)", "Rapid Prototyping (Hand tools, sewing)"],
-    image: "https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?w=400&h=400&fit=crop",
+    image: tumbleToteImg,
     organization: "MAE 4341 - Innovative Product Design via Digital Manufacturing"
   },
 ];
@@ -244,6 +245,12 @@ const Index = () => {
       <section id="cv" className="min-h-screen py-20 px-4">
         <div className="max-w-4xl mx-auto space-y-12 animate-fade-in-up">
           <h2 className="text-5xl md:text-7xl font-agrandir">Curriculum Vitae</h2>
+
+          {/* Objective */}
+          <div className="p-6 rounded-3xl bg-background/50 border-2 border-foreground">
+            <h3 className="text-2xl font-agrandir mb-3">Objective</h3>
+            <p className="text-base">Seeking a full-time position for June 2026</p>
+          </div>
 
           {/* Experience */}
           <div className="space-y-8">

@@ -180,17 +180,7 @@ const Index = () => {
       {/* Projects Section */}
       <section id="projects" className="min-h-screen py-20 px-4">
         <div className="max-w-6xl mx-auto space-y-12 animate-fade-in-up">
-          <div className="flex justify-between items-center">
-            <h2 className="text-5xl md:text-7xl font-agrandir">Projects</h2>
-            <Button
-              variant="ghost"
-              onClick={() => navigate("/projects")}
-              className="text-base hover:text-primary transition-colors group"
-            >
-              See more...
-              <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-            </Button>
-          </div>
+          <h2 className="text-5xl md:text-7xl font-agrandir">Projects</h2>
 
           <div className="grid grid-cols-1 gap-6 pt-6">
             {projects.map((project, index) => (
@@ -252,6 +242,17 @@ const Index = () => {
                 )}
               </div>
             ))}
+          </div>
+
+          <div className="flex justify-end pt-4">
+            <Button
+              variant="ghost"
+              onClick={() => navigate("/projects")}
+              className="text-base hover:text-primary transition-colors group"
+            >
+              See more
+              <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+            </Button>
           </div>
         </div>
       </section>

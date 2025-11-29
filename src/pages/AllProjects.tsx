@@ -11,6 +11,7 @@ import tableRenderImg from "@/assets/table-render.png";
 import tubeFittingsImg from "@/assets/tube-fittings.jpg";
 import tumbleToteImg from "@/assets/tumbletote.png";
 import boxFanRenderImg from "@/assets/box-fan-render.png";
+import fanBladeRenderImg from "@/assets/fan-blade-render.png";
 import riceCookerRender1Img from "@/assets/rice-cooker-render1.png";
 import riceCookerRender2Img from "@/assets/rice-cooker-render2.png";
 import keyguardPrintedImg from "@/assets/keyguard-printed.jpg";
@@ -77,10 +78,10 @@ const projects = [
     description: "Performance analysis and optimization of box fan blade design using fluid mechanics principles",
     fullDescription: "Took apart a box fan and cut cross sections of the fan to measure and model on Fusion360. Measured fan speeds using an anemometer to analyze performance.",
     additionalImages: [boxFanRenderImg],
-    additionalText: "Found an optimal angle of attack from the measured geometry to be used if the fan were to be redesigned to provide optimal cooling power. Analyzed the box fan using concepts of fluid mechanics.",
+    additionalText: "Found an optimal angle of attack from the measured geometry to be used if the fan were to be redesigned to provide optimal cooling power. Analyzed the box fan using concepts of fluid mechanics. Watch the full project presentation: https://youtu.be/0M7gkP3zKfs",
     color: "blue",
     tags: ["Fusion360", "Fluid Mechanics", "Engineering Analysis"],
-    image: boxFanRenderImg,
+    image: fanBladeRenderImg,
     organization: "MAE 3230: Intro Fluid Mechanics"
   },
   {

@@ -88,10 +88,10 @@ const projects = [
     title: "Rice Cooker CAD Model",
     description: "Detailed CAD modeling of a rice cooker with accurate dimensions and realistic rendering",
     fullDescription: "Created a detailed CAD model of a rice cooker, focusing on accurate dimensional modeling and realistic rendering techniques to showcase product design capabilities.",
-    additionalImages: [riceCookerRender2Img],
+    additionalImages: [riceCookerRender1Img],
     color: "purple",
     tags: ["CAD", "3D Modeling", "Product Design"],
-    image: riceCookerRender1Img,
+    image: riceCookerRender2Img,
     organization: "Personal Project"
   },
   {

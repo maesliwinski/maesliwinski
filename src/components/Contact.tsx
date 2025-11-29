@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Mail, MapPin, Phone } from "lucide-react";
+import { Mail, MapPin } from "lucide-react";
 
 const Contact = () => {
   return (
@@ -27,16 +27,6 @@ const Contact = () => {
                 </div>
                 <CardTitle className="text-lg">Email</CardTitle>
                 <CardDescription>hello@example.com</CardDescription>
-              </CardHeader>
-            </Card>
-
-            <Card className="border-border/50 bg-gradient-card">
-              <CardHeader>
-                <div className="w-12 h-12 rounded-lg bg-gradient-accent flex items-center justify-center mb-2">
-                  <Phone className="w-6 h-6 text-primary-foreground" />
-                </div>
-                <CardTitle className="text-lg">Phone</CardTitle>
-                <CardDescription>+1 (555) 123-4567</CardDescription>
               </CardHeader>
             </Card>
 

@@ -10,6 +10,10 @@ import wheelchairTableUseImg from "@/assets/wheelchair-table-use.jpg";
 import tableRenderImg from "@/assets/table-render.png";
 import tubeFittingsImg from "@/assets/tube-fittings.jpg";
 import tumbleToteImg from "@/assets/tumbletote.png";
+import boxFanRenderImg from "@/assets/box-fan-render.png";
+import riceCookerRender1Img from "@/assets/rice-cooker-render1.png";
+import riceCookerRender2Img from "@/assets/rice-cooker-render2.png";
+import keyguardPrintedImg from "@/assets/keyguard-printed.jpg";
 
 const projects = [
   {
@@ -55,6 +59,51 @@ const projects = [
     tags: ["Voice of Customer", "3D Modeling (Blender)", "Rapid Prototyping (Hand tools, sewing)"],
     image: tumbleToteImg,
     organization: "MAE 4341 - Innovative Product Design via Digital Manufacturing"
+  },
+  {
+    id: 5,
+    title: "BOE-Bot Robot",
+    description: "Collaboratively created a cube collecting robot based on design specifications for a mechatronics competition",
+    fullDescription: "Collaboratively created a cube collecting robot based on design specifications. Prototyped with Arduino and Breadboard using C++ code to control sensors and motors for autonomous navigation and cube collection.",
+    additionalText: "The robot made it to the final stages of the competition, successfully completing the autonomous cube collection challenges.",
+    color: "sage",
+    tags: ["Arduino", "C++", "Mechatronics", "Robotics"],
+    image: penHoldersImg,
+    organization: "MAE 3780: Mechatronics"
+  },
+  {
+    id: 6,
+    title: "Box Fan Blade Analysis",
+    description: "Performance analysis and optimization of box fan blade design using fluid mechanics principles",
+    fullDescription: "Took apart a box fan and cut cross sections of the fan to measure and model on Fusion360. Measured fan speeds using an anemometer to analyze performance.",
+    additionalImages: [boxFanRenderImg],
+    additionalText: "Found an optimal angle of attack from the measured geometry to be used if the fan were to be redesigned to provide optimal cooling power. Analyzed the box fan using concepts of fluid mechanics.",
+    color: "blue",
+    tags: ["Fusion360", "Fluid Mechanics", "Engineering Analysis"],
+    image: boxFanRenderImg,
+    organization: "MAE 3230: Intro Fluid Mechanics"
+  },
+  {
+    id: 7,
+    title: "Rice Cooker CAD Model",
+    description: "Detailed CAD modeling of a rice cooker with accurate dimensions and realistic rendering",
+    fullDescription: "Created a detailed CAD model of a rice cooker, focusing on accurate dimensional modeling and realistic rendering techniques to showcase product design capabilities.",
+    additionalImages: [riceCookerRender2Img],
+    color: "purple",
+    tags: ["CAD", "3D Modeling", "Product Design"],
+    image: riceCookerRender1Img,
+    organization: "Personal Project"
+  },
+  {
+    id: 8,
+    title: "3D Printed Keyguards for AAC Apps",
+    description: "Custom keyguards for non-verbal communication apps using OpenSCAD parametric design",
+    fullDescription: "Designed and manufactured 3D printed keyguards for non-verbal communication apps using OpenSCAD. The parametric design allows for customization based on different tablet sizes and app grid layouts.",
+    additionalText: "The keyguards help users with motor disabilities accurately select buttons on touchscreen communication apps by providing physical boundaries between keys, improving independence and communication speed.",
+    color: "orange",
+    tags: ["OpenSCAD", "3D Printing", "Assistive Technology", "Parametric Design"],
+    image: keyguardPrintedImg,
+    organization: "Cornell Assistive Technologies"
   },
 ];
 

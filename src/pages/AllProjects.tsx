@@ -15,6 +15,7 @@ import fanBladeRenderImg from "@/assets/fan-blade-render.png";
 import riceCookerRender1Img from "@/assets/rice-cooker-render1.png";
 import riceCookerRender2Img from "@/assets/rice-cooker-render2.png";
 import keyguardPrintedImg from "@/assets/keyguard-printed.jpg";
+import boebotRobotImg from "@/assets/boebot-robot.png";
 
 const projects = [
   {
@@ -69,7 +70,7 @@ const projects = [
     additionalText: "The robot made it to the final stages of the competition, successfully completing the autonomous cube collection challenges.",
     color: "sage",
     tags: ["Arduino", "C++", "Mechatronics", "Robotics"],
-    image: penHoldersImg,
+    image: boebotRobotImg,
     organization: "MAE 3780: Mechatronics"
   },
   {

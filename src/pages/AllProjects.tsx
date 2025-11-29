@@ -92,7 +92,7 @@ const projects = [
     color: "purple",
     tags: ["CAD", "3D Modeling", "Product Design"],
     image: riceCookerRender2Img,
-    organization: "Personal Project"
+    organization: "MAE 2250: Intro to Mechanical Design"
   },
   {
     id: 8,

@@ -368,7 +368,7 @@ const Index = () => {
 
           <div className="text-center pt-8">
             <p className="text-muted-foreground text-sm">
-              (716) 474-2548 | mgs263@cornell.edu
+              mgs263@cornell.edu
             </p>
           </div>
         </div>

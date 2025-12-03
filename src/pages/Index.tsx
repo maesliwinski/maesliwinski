@@ -3,18 +3,28 @@ import { Mail, Linkedin, Github, ChevronDown, ArrowRight } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import penHoldersImg from "@/assets/pen-holders.jpg";
-import tableBuiltImg from "@/assets/table-built.jpg";
 import penHolderCloseupImg from "@/assets/pen-holder-closeup.jpg";
 import penHolderRenderImg from "@/assets/pen-holder-render.png";
-import wheelchairTableUseImg from "@/assets/wheelchair-table-use.jpg";
-import tableRenderImg from "@/assets/table-render.png";
 import headshotImg from "@/assets/headshot.jpg";
 import tubeFittingsImg from "@/assets/tube-fittings.jpg";
 import tumbleToteImg from "@/assets/tumbletote.png";
+// TODO: Replace with actual Amazon internship image
+import amazonInternshipImg from "@/assets/headshot.jpg";
 
 const projects = [
   {
     id: 1,
+    title: "Station Readiness Tool",
+    description: "Created a browser extension tool for managers to track packing station repairs, reducing associate idle time by 7% and improving equipment uptime by 16%.",
+    fullDescription: "My process improvement project at Amazon was 'Mitigating Chuting Unknown Idle Time with Station Readiness' in which I created a browser extension tool for managers to easily track which packing stations need repair, so when associates are moved on the floor they are not assigned to a broken station. My project helped decrease associates Unknown Idle Time by 7% over the course of its implementation, and improved equipment uptime by 16%.",
+    additionalText: "I also made other improvements on the floor such as establishing a new Standard Work procedure for boxes of carts that results in less steps needed to be taken in order to complete a task, and encouraged the usage of a more robust andon system.",
+    color: "orange",
+    tags: ["JavaScript", "Artificial Intelligence", "HTML/CSS", "Root Cause Analysis"],
+    image: amazonInternshipImg,
+    organization: "Internship at Amazon"
+  },
+  {
+    id: 2,
     title: "Assistive Pen Holders",
     description: "Designed pen holders in Fusion360 for children with motor disabilities to stabilize writing. My design eliminated the need for a screwdriver to change the pen, promoting independence and ease of use.",
     fullDescription: "In Fall 2023 I designed a pen holder in Fusion360 for children with motor disabilities to stabilize writing as requested by a family local to my University. My design eliminated the need for a screwdriver to change the pen that existing solutions had, thus promoting independence and ease of use. The increased surface area helps provide grip control.",
@@ -23,18 +33,6 @@ const projects = [
     color: "purple",
     tags: ["3D Printing (Prusa)", "CAD (Autodesk Fusion360)"],
     image: penHoldersImg,
-    organization: "Cornell Assistive Technologies"
-  },
-  {
-    id: 2,
-    title: "Custom Wheelchair Table",
-    description: "Created a custom table that interfaces with a custom wheelchair using low-cost, lightweight materials like acrylic and aluminum extrusions for easy mobility.",
-    fullDescription: "In Fall 2024, I received a request from Finger Lakes Independence Center to make a custom table that interfaces with a custom wheelchair. My design focuses on using low-cost, lightweight materials, such as acrylic and aluminum extrusions, so that the user can push away the chair with minimum effort based on his condition.",
-    additionalImages: [wheelchairTableUseImg, tableRenderImg],
-    additionalText: "The final result differs from the designed version as my team and I made quick iterations in order to deliver the project by the promised date. One of these changes was including washers under the bolts that secure the acrylic table top to prevent the stress fracture of the table top and secure it into place without an epoxy.",
-    color: "sage",
-    tags: ["Autodesk Fusion360", "Power Tools (Drill, Band Saw)", "Laser Cutter"],
-    image: tableBuiltImg,
     organization: "Cornell Assistive Technologies"
   },
   {
@@ -52,7 +50,7 @@ const projects = [
     title: "TumbleTote Laundry Caddy",
     description: "Dorm room and apartment laundry organization system for people on the go",
     fullDescription: "Dorm room and apartment laundry organization system for people on the go",
-    color: "orange",
+    color: "sage",
     tags: ["Voice of Customer", "3D Modeling (Blender)", "Rapid Prototyping (Hand tools, sewing)"],
     image: tumbleToteImg,
     organization: "MAE 4341 - Innovative Product Design via Digital Manufacturing"

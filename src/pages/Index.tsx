@@ -8,8 +8,7 @@ import penHolderRenderImg from "@/assets/pen-holder-render.png";
 import headshotImg from "@/assets/headshot.jpg";
 import tubeFittingsImg from "@/assets/tube-fittings.jpg";
 import tumbleToteImg from "@/assets/tumbletote.png";
-// TODO: Replace with actual Amazon internship image
-import amazonInternshipImg from "@/assets/headshot.jpg";
+import amazonInternshipImg from "@/assets/amazon-internship.png";
 
 const projects = [
   {

@@ -292,6 +292,7 @@ const Index = () => {
                   <li>Characterizing elastomer membrane of combustion actuators with Finite Element Analysis Simulation and conducting tensile and fatigue tests</li>
                   <li>Creating several custom experimental staging parts in SolidWorks, such as a multi-channel fuel intake organizer, then manufacturing with a Figure 4 resin printer</li>
                   <li>Analyzing displacement data of the combustion actuators with different fuel ratios with high-speed camera capture</li>
+                  <li>Troubleshoot electromechanical hardware, select and evaluate motors/linear actuators based on force requirements and packaging constraints to support integration of wiring, sensors, and actuators for an underground robot</li>
                 </ul>
               </div>
 

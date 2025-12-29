@@ -16,6 +16,10 @@ import riceCookerRender1Img from "@/assets/rice-cooker-render1.png";
 import riceCookerRender2Img from "@/assets/rice-cooker-render2.png";
 import keyguardPrintedImg from "@/assets/keyguard-printed.jpg";
 import boebotRobotImg from "@/assets/boebot-robot.png";
+import windTurbineBladesImg from "@/assets/wind-turbine-blades.png";
+import windBladeDesignImg from "@/assets/wind-blade-design.png";
+import windPowerCurvesImg from "@/assets/wind-power-curves.png";
+import windEfficiencyTsrImg from "@/assets/wind-efficiency-tsr.png";
 
 const projects = [
   {
@@ -107,6 +111,21 @@ const projects = [
     image: keyguardPrintedImg,
     organization: "Cornell Assistive Technologies"
   },
+  {
+    id: 9,
+    title: "Small Wind-Turbine Blades Design Project",
+    description: "Developed a small wind turbine blade design to produce maximum power at a chosen angular velocity using MATLAB optimization and Fusion360 CAD modeling.",
+    fullDescription: "Project overview. The objective of this project was to develop a small wind turbine blade design to produce maximum power at a chosen angular velocity. The wind conditions simulated in the wind tunnel were based on a Weibull velocity distribution between 3 and 7 m/s, and our experimental constraints included the wind tunnel's operating limits and a magnetic particle torque brake's maximum allowable torque. Meaning, we are not actually using a generator to obtain power, but we are mechanically modeling the generation of electricity because varying the voltage on our LabVIEW VI on the computer here is allowing us to replicate what a generator would behave like under certain loading conditions by using the relationship P = T·ω.",
+    additionalImages: [windBladeDesignImg],
+    additionalText: "Design process. Our blade design was a blend of two airfoils, combining NACA 4412 at the root and NACA 6409 near the tip. We implemented this using nine cross sections total, with four cross sections of NACA 4412 that smoothly transitioned into five cross sections of NACA 6409 from root to tip. We selected this approach because the NACA 4412 exhibits a more gradual increase in lift with relatively higher drag and has a thicker chord, making it well-suited near the blade root where structural loading and bending moments at the hub are most significant; in contrast, the NACA 6409 demonstrates a higher lift-to-drag ratio over a range of operating lift coefficients, making it better suited for the blade tip where local flow velocities are higher and minimizing drag is essential for maximizing efficiency. We created a MATLAB script using a blade element approach to automate and optimize calculations, used airfoil polars to guide selection, and incorporated spanwise twist to ensure a more uniform and optimal angle of attack along the blade length.",
+    additionalImages2: [windPowerCurvesImg, windEfficiencyTsrImg],
+    additionalText2: "Testing summary and results. To assess actual performance, we conducted experimental trials in a wind tunnel testing across a range of wind speeds to generate power curves and evaluate turbine efficiency. For each wind speed, torque was incrementally applied using the magnetic particle brake until the turbine stalled, and we recorded wind speed U, measured by a pitot-static tube, torque T, rotational speed in RPM, and power output P. Across six trials (wind speeds from 2.9 to 5.8 m/s), the data produced well-formed power curves and enabled an efficiency analysis using tip-speed ratio and power coefficient. We determined that the highest efficiency was reached at a tip-speed ratio of roughly six, and the optimal angular velocity for our blade was 1360.83 RPM (from the 5.2 m/s case).",
+    additionalText3: "My contribution. I developed the final MATLAB script to be able to obtain the geometry for the cross sections, and then I designed the blade and hub attachment in Fusion360 based on the MATLAB script's calculated geometry, and the design specifics provided for this design objective.",
+    color: "blue",
+    tags: ["MATLAB", "Fusion360", "Wind Tunnel Testing", "Blade Element Analysis", "LabVIEW"],
+    image: windTurbineBladesImg,
+    organization: "MAE 4272 – Fluids and Heat Transfer Laboratory"
+  },
 ];
 
 const AllProjects = () => {
@@ -192,6 +211,27 @@ const AllProjects = () => {
                     
                     {project.additionalText && (
                       <p className="text-base whitespace-pre-line">{project.additionalText}</p>
+                    )}
+
+                    {project.additionalImages2 && project.additionalImages2.length > 0 && (
+                      <div className="grid grid-cols-2 gap-4">
+                        {project.additionalImages2.map((img, idx) => (
+                          <img 
+                            key={idx}
+                            src={img} 
+                            alt={`${project.title} results ${idx + 1}`}
+                            className="w-full h-48 object-cover rounded-2xl"
+                          />
+                        ))}
+                      </div>
+                    )}
+
+                    {project.additionalText2 && (
+                      <p className="text-base whitespace-pre-line">{project.additionalText2}</p>
+                    )}
+
+                    {project.additionalText3 && (
+                      <p className="text-base whitespace-pre-line">{project.additionalText3}</p>
                     )}
                   </div>
                 </div>

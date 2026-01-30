@@ -259,9 +259,6 @@ const Index = () => {
         <div className="max-w-4xl mx-auto space-y-12 animate-fade-in-up">
           <h2 className="text-5xl md:text-7xl font-agrandir">Curriculum Vitae</h2>
 
-          {/* Objective */}
-          <p className="text-lg"><span className="font-agrandir text-xl">Objective:</span> Seeking a full-time position for June 2026</p>
-
           {/* Experience */}
           <div className="space-y-8">
             <h3 className="text-3xl font-agrandir">Experience</h3>

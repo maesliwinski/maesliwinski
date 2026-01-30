@@ -136,7 +136,7 @@ const Index = () => {
                 I am a senior studying Mechanical Engineering at Cornell University. I love applying human-factors engineering design principles to my experiences from coursework, research, and on-the-job scenarios.
               </p>
               <p>
-                My specialties lie in design, product development, and people management. I've led and managed teams from 50-120+ people to create and implement solutions that are thoughtful, innovative, and drive productivity.
+                My specialties lie in design, product development, and project management. I've led and managed teams from 50-120+ people to create and implement solutions that are thoughtful, innovative, and drive productivity.
               </p>
             </div>
           </div>
@@ -333,7 +333,7 @@ const Index = () => {
                 <span className="text-muted-foreground">Aug 2022 - May 2026</span>
               </div>
               <p className="text-lg mb-2">Cornell University, College of Engineering</p>
-              <p className="text-base"><strong>Relevant Coursework:</strong> Innovative Product Design via Digital Manufacturing, Advanced Product Design, Statics & Mechanics, Mechanical Design, System Dynamics, Materials, Fluid Mechanics, Heat Transfer, Mechatronics, Statistics</p>
+              <p className="text-base"><strong>Relevant Coursework:</strong> Innovative Product Design via Digital Manufacturing, Advanced Product Design, Statics & Mechanics, Mechanical Design, System Dynamics, Materials, Fluid Mechanics, Heat Transfer, Mechatronics, Statistics, Additive Manufacturing: Process Physics, Materials, Properties and Post Processing</p>
             </div>
           </div>
 

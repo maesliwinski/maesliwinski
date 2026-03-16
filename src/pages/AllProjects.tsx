@@ -78,7 +78,8 @@ const projects = [
     color: "sage",
     tags: ["Arduino", "C++", "Mechatronics", "Robotics"],
     image: boebotRobotImg,
-    organization: "MAE 3780: Mechatronics"
+    organization: "MAE 3780: Mechatronics",
+    date: "Spring 2025"
   },
   {
     id: 6,

@@ -115,7 +115,8 @@ const projects = [
     color: "orange",
     tags: ["OpenSCAD", "3D Printing", "Assistive Technology", "Parametric Design"],
     image: keyguardPrintedImg,
-    organization: "Cornell Assistive Technologies"
+    organization: "Cornell Assistive Technologies",
+    date: "Fall 2023"
   },
 ];
 

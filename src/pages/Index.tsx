@@ -2,15 +2,24 @@ import { Button } from "@/components/ui/button";
 import { Mail, Linkedin, Github, ChevronDown, ArrowRight } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import penHoldersImg from "@/assets/pen-holders.jpg";
-import penHolderCloseupImg from "@/assets/pen-holder-closeup.jpg";
-import penHolderRenderImg from "@/assets/pen-holder-render.png";
 import headshotImg from "@/assets/headshot.jpg";
 import tubeFittingsImg from "@/assets/tube-fittings.jpg";
 import tumbleToteImg from "@/assets/tumbletote.png";
 import amazonInternshipImg from "@/assets/amazon-internship.png";
+import seniorDesignImg from "@/assets/senior-design.png";
 
 const projects = [
+  {
+    id: 0,
+    title: "Senior Design Project",
+    description: "Work in Progress",
+    fullDescription: "",
+    color: "sage",
+    tags: ["CAD (SolidWorks)", "Parametric Modeling", "JavaScript CAD", "3D Printing (Bambu)"],
+    image: seniorDesignImg,
+    organization: "Senior Design",
+    link: "/seniordesign",
+  },
   {
     id: 1,
     title: "Station Readiness Tool",
@@ -21,18 +30,6 @@ const projects = [
     tags: ["JavaScript", "Artificial Intelligence", "HTML/CSS", "Root Cause Analysis"],
     image: amazonInternshipImg,
     organization: "Internship at Amazon"
-  },
-  {
-    id: 2,
-    title: "Assistive Pen Holders",
-    description: "Designed pen holders in Fusion360 for children with motor disabilities to stabilize writing. My design eliminated the need for a screwdriver to change the pen, promoting independence and ease of use.",
-    fullDescription: "In Fall 2023 I designed a pen holder in Fusion360 for children with motor disabilities to stabilize writing as requested by a family local to my University. My design eliminated the need for a screwdriver to change the pen that existing solutions had, thus promoting independence and ease of use. The increased surface area helps provide grip control.",
-    additionalImages: [penHolderCloseupImg, penHolderRenderImg],
-    additionalText: "For this project, I learned features such as Section Analysis to verify that my threads were within tolerance of the selected screw. I also used the assembly features to demonstrate the use of the product before manufacturing with a Prusa 3D Printer with PLA for the lightweight versatility. The bright colors selected are for students that are low-vision to provide a bright contrast.\n\nThe family I partnered with for this project gave the pen holders to their local school.",
-    color: "purple",
-    tags: ["3D Printing (Prusa)", "CAD (Autodesk Fusion360)"],
-    image: penHoldersImg,
-    organization: "Cornell Assistive Technologies"
   },
   {
     id: 3,
@@ -183,7 +180,13 @@ const Index = () => {
             {projects.map((project, index) => (
               <div key={project.id}>
                 <div
-                  onClick={() => setSelectedProject(selectedProject === project.id ? null : project.id)}
+                  onClick={() => {
+                    if ('link' in project && project.link) {
+                      navigate(project.link);
+                    } else {
+                      setSelectedProject(selectedProject === project.id ? null : project.id);
+                    }
+                  }}
                   className={`p-6 rounded-3xl border-2 transition-all hover:scale-[1.02] hover:shadow-lg animate-scale-in cursor-pointer ${getColorClasses(
                     project.color
                   )}`}
@@ -213,25 +216,12 @@ const Index = () => {
                   </div>
                 </div>
                 
-                {selectedProject === project.id && (
+                {selectedProject === project.id && 'fullDescription' in project && project.fullDescription && (
                   <div className={`mt-4 p-6 rounded-3xl border-2 animate-fade-in ${getColorClasses(project.color)}`}>
                     <div className="space-y-6">
                       <p className="text-base whitespace-pre-line">{project.fullDescription}</p>
                       
-                      {project.additionalImages && project.additionalImages.length > 0 && (
-                        <div className="grid grid-cols-2 gap-4">
-                          {project.additionalImages.map((img, idx) => (
-                            <img 
-                              key={idx}
-                              src={img} 
-                              alt={`${project.title} detail ${idx + 1}`}
-                              className="w-full h-48 object-cover rounded-2xl"
-                            />
-                          ))}
-                        </div>
-                      )}
-                      
-                      {project.additionalText && (
+                      {'additionalText' in project && project.additionalText && (
                         <p className="text-base whitespace-pre-line">{project.additionalText}</p>
                       )}
                     </div>

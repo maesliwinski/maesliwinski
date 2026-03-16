@@ -56,7 +56,8 @@ const projects = [
     color: "blue",
     tags: ["SolidWorks", "3D Printing (Figure 4)", "Hand Calculations"],
     image: tubeFittingsImg,
-    organization: "Organic Robotics Laboratory"
+    organization: "Organic Robotics Laboratory",
+    date: "Nov 2025"
   },
   {
     id: 4,

@@ -160,7 +160,7 @@ const SeniorDesign = () => {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `splint_${length}x${width}x${thickness}mm.stl`;
+    a.download = `orthosis_${length}x${width}x${thickness}mm.stl`;
     a.click();
     URL.revokeObjectURL(url);
   };

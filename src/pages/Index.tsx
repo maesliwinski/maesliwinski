@@ -10,6 +10,17 @@ import seniorDesignImg from "@/assets/senior-design.png";
 
 const projects = [
   {
+    id: 0,
+    title: "Senior Design Project",
+    description: "Work in Progress",
+    fullDescription: "",
+    color: "sage",
+    tags: ["CAD (SolidWorks)", "Parametric Modeling", "JavaScript CAD", "3D Printing (Bambu)"],
+    image: seniorDesignImg,
+    organization: "Senior Design",
+    link: "/seniordesign",
+  },
+  {
     id: 1,
     title: "Station Readiness Tool",
     description: "Created a browser extension tool for managers to track packing station repairs, reducing associate idle time by 7% and improving equipment uptime by 16%.",
@@ -19,18 +30,6 @@ const projects = [
     tags: ["JavaScript", "Artificial Intelligence", "HTML/CSS", "Root Cause Analysis"],
     image: amazonInternshipImg,
     organization: "Internship at Amazon"
-  },
-  {
-    id: 2,
-    title: "Assistive Pen Holders",
-    description: "Designed pen holders in Fusion360 for children with motor disabilities to stabilize writing. My design eliminated the need for a screwdriver to change the pen, promoting independence and ease of use.",
-    fullDescription: "In Fall 2023 I designed a pen holder in Fusion360 for children with motor disabilities to stabilize writing as requested by a family local to my University. My design eliminated the need for a screwdriver to change the pen that existing solutions had, thus promoting independence and ease of use. The increased surface area helps provide grip control.",
-    additionalImages: [penHolderCloseupImg, penHolderRenderImg],
-    additionalText: "For this project, I learned features such as Section Analysis to verify that my threads were within tolerance of the selected screw. I also used the assembly features to demonstrate the use of the product before manufacturing with a Prusa 3D Printer with PLA for the lightweight versatility. The bright colors selected are for students that are low-vision to provide a bright contrast.\n\nThe family I partnered with for this project gave the pen holders to their local school.",
-    color: "purple",
-    tags: ["3D Printing (Prusa)", "CAD (Autodesk Fusion360)"],
-    image: penHoldersImg,
-    organization: "Cornell Assistive Technologies"
   },
   {
     id: 3,

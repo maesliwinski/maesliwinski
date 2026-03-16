@@ -2,13 +2,11 @@ import { Button } from "@/components/ui/button";
 import { Mail, Linkedin, Github, ChevronDown, ArrowRight } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import penHoldersImg from "@/assets/pen-holders.jpg";
-import penHolderCloseupImg from "@/assets/pen-holder-closeup.jpg";
-import penHolderRenderImg from "@/assets/pen-holder-render.png";
 import headshotImg from "@/assets/headshot.jpg";
 import tubeFittingsImg from "@/assets/tube-fittings.jpg";
 import tumbleToteImg from "@/assets/tumbletote.png";
 import amazonInternshipImg from "@/assets/amazon-internship.png";
+import seniorDesignImg from "@/assets/senior-design.png";
 
 const projects = [
   {

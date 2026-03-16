@@ -272,7 +272,7 @@ const Index = () => {
               <div className="p-6 rounded-3xl bg-purple/20 border-2 border-purple">
                 <div className="flex flex-col sm:flex-row justify-between mb-2">
                   <h4 className="text-2xl font-agrandir">Research Assistant</h4>
-                  <span className="text-muted-foreground">Nov 2023 - Present</span>
+                  <span className="text-muted-foreground">Nov 2023 - Dec 2025</span>
                 </div>
                 <p className="text-lg mb-2">Organic Robotics Lab</p>
                 <ul className="list-disc list-inside space-y-2 text-base">

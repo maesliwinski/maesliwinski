@@ -182,16 +182,17 @@ const Index = () => {
                   )}`}
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
-                  <div className="flex gap-6 items-start">
-                    <img 
-                      src={project.image} 
-                      alt={project.title}
-                      className="w-32 h-32 object-cover rounded-2xl flex-shrink-0"
-                    />
-                    <div className="flex-1">
-                      <p className="text-sm text-muted-foreground mb-1">{project.organization}</p>
-                      <h3 className="text-2xl font-agrandir mb-2">{project.title}</h3>
-                      <p className="text-base mb-4">{project.description}</p>
+            <div className="flex gap-6 items-start">
+              <img 
+                src={project.image} 
+                alt={project.title}
+                className="w-32 h-32 object-cover rounded-2xl flex-shrink-0"
+              />
+              <div className="flex-1">
+                <p className="text-sm text-muted-foreground mb-1">{project.organization}</p>
+                <h3 className="text-2xl font-agrandir mb-2">{project.title}</h3>
+                {project.date && <p className="text-sm text-muted-foreground mb-2">{project.date}</p>}
+                <p className="text-base mb-4">{project.description}</p>
                       <div className="flex flex-wrap gap-2">
                         {project.tags.map((tag, tagIndex) => (
                           <span

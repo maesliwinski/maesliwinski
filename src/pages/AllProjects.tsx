@@ -188,6 +188,7 @@ const AllProjects = () => {
                   <div className="flex-1">
                     <p className="text-sm text-muted-foreground mb-1">{project.organization}</p>
                     <h3 className="text-2xl font-agrandir mb-2">{project.title}</h3>
+                    {project.date && <p className="text-sm text-muted-foreground mb-2">{project.date}</p>}
                     <p className="text-base mb-4">{project.description}</p>
                     <div className="flex flex-wrap gap-2">
                       {project.tags.map((tag, tagIndex) => (

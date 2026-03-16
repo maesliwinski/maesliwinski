@@ -67,7 +67,8 @@ const projects = [
     color: "orange",
     tags: ["Voice of Customer", "3D Modeling (Blender)", "Rapid Prototyping (Hand tools, sewing)"],
     image: tumbleToteImg,
-    organization: "MAE 4341 - Innovative Product Design via Digital Manufacturing"
+    organization: "MAE 4341 - Innovative Product Design via Digital Manufacturing",
+    date: "Fall 2025"
   },
   {
     id: 5,

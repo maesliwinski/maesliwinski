@@ -19,7 +19,7 @@ const projects = [
     image: seniorDesignImg,
     organization: "Senior Design Project",
     link: "/seniordesign",
-    date: "2026"
+    date: "Spring 2026"
   },
   {
     id: 1,

@@ -45,7 +45,8 @@ const projects = [
     color: "sage",
     tags: ["Autodesk Fusion360", "Power Tools (Drill, Band Saw)", "Laser Cutter"],
     image: tableBuiltImg,
-    organization: "Cornell Assistive Technologies"
+    organization: "Cornell Assistive Technologies",
+    date: "Fall 2023"
   },
   {
     id: 3,

@@ -134,7 +134,8 @@ const windTurbineProject = {
   color: "blue",
   tags: ["MATLAB", "Fusion360", "Wind Tunnel Testing", "Blade Element Analysis", "LabVIEW"],
   image: windTurbineBladesImg,
-  organization: "MAE 4272 – Fluids and Heat Transfer Laboratory"
+  organization: "MAE 4272 – Fluids and Heat Transfer Laboratory",
+  date: "Fall 2025"
 };
 
 const allProjects = [windTurbineProject, ...projects];

@@ -103,7 +103,8 @@ const projects = [
     color: "purple",
     tags: ["CAD", "3D Modeling", "Product Design"],
     image: riceCookerRender2Img,
-    organization: "MAE 2250: Intro to Mechanical Design"
+    organization: "MAE 2250: Intro to Mechanical Design",
+    date: "Fall 2023"
   },
   {
     id: 8,

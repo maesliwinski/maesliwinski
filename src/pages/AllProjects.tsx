@@ -91,7 +91,8 @@ const projects = [
     color: "blue",
     tags: ["Fusion360", "Fluid Mechanics", "Engineering Analysis"],
     image: fanBladeRenderImg,
-    organization: "MAE 3230: Intro Fluid Mechanics"
+    organization: "MAE 3230: Intro Fluid Mechanics",
+    date: "Fall 2024"
   },
   {
     id: 7,

@@ -32,7 +32,8 @@ const projects = [
     color: "purple",
     tags: ["3D Printing (Prusa)", "CAD (Autodesk Fusion360)"],
     image: penHoldersImg,
-    organization: "Cornell Assistive Technologies"
+    organization: "Cornell Assistive Technologies",
+    date: "Spring 2024"
   },
   {
     id: 2,
@@ -44,7 +45,8 @@ const projects = [
     color: "sage",
     tags: ["Autodesk Fusion360", "Power Tools (Drill, Band Saw)", "Laser Cutter"],
     image: tableBuiltImg,
-    organization: "Cornell Assistive Technologies"
+    organization: "Cornell Assistive Technologies",
+    date: "Fall 2023"
   },
   {
     id: 3,
@@ -54,7 +56,8 @@ const projects = [
     color: "blue",
     tags: ["SolidWorks", "3D Printing (Figure 4)", "Hand Calculations"],
     image: tubeFittingsImg,
-    organization: "Organic Robotics Laboratory"
+    organization: "Organic Robotics Laboratory",
+    date: "Nov 2025"
   },
   {
     id: 4,
@@ -75,7 +78,8 @@ const projects = [
     color: "sage",
     tags: ["Arduino", "C++", "Mechatronics", "Robotics"],
     image: boebotRobotImg,
-    organization: "MAE 3780: Mechatronics"
+    organization: "MAE 3780: Mechatronics",
+    date: "Spring 2025"
   },
   {
     id: 6,
@@ -87,7 +91,8 @@ const projects = [
     color: "blue",
     tags: ["Fusion360", "Fluid Mechanics", "Engineering Analysis"],
     image: fanBladeRenderImg,
-    organization: "MAE 3230: Intro Fluid Mechanics"
+    organization: "MAE 3230: Intro Fluid Mechanics",
+    date: "Fall 2024"
   },
   {
     id: 7,
@@ -98,7 +103,8 @@ const projects = [
     color: "purple",
     tags: ["CAD", "3D Modeling", "Product Design"],
     image: riceCookerRender2Img,
-    organization: "MAE 2250: Intro to Mechanical Design"
+    organization: "MAE 2250: Intro to Mechanical Design",
+    date: "Fall 2023"
   },
   {
     id: 8,
@@ -109,7 +115,8 @@ const projects = [
     color: "orange",
     tags: ["OpenSCAD", "3D Printing", "Assistive Technology", "Parametric Design"],
     image: keyguardPrintedImg,
-    organization: "Cornell Assistive Technologies"
+    organization: "Cornell Assistive Technologies",
+    date: "Fall 2023"
   },
 ];
 
@@ -127,7 +134,8 @@ const windTurbineProject = {
   color: "blue",
   tags: ["MATLAB", "Fusion360", "Wind Tunnel Testing", "Blade Element Analysis", "LabVIEW"],
   image: windTurbineBladesImg,
-  organization: "MAE 4272 – Fluids and Heat Transfer Laboratory"
+  organization: "MAE 4272 – Fluids and Heat Transfer Laboratory",
+  date: "Fall 2025"
 };
 
 const allProjects = [windTurbineProject, ...projects];
@@ -180,6 +188,7 @@ const AllProjects = () => {
                   <div className="flex-1">
                     <p className="text-sm text-muted-foreground mb-1">{project.organization}</p>
                     <h3 className="text-2xl font-agrandir mb-2">{project.title}</h3>
+                    {project.date && <p className="text-sm text-muted-foreground mb-2">{project.date}</p>}
                     <p className="text-base mb-4">{project.description}</p>
                     <div className="flex flex-wrap gap-2">
                       {project.tags.map((tag, tagIndex) => (

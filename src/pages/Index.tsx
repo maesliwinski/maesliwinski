@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import headshotImg from "@/assets/headshot.jpg";
 import tubeFittingsImg from "@/assets/tube-fittings.jpg";
-import tumbleToteImg from "@/assets/tumbletote.png";
+
 import amazonInternshipImg from "@/assets/amazon-internship.png";
 import seniorDesignImg from "@/assets/splint.png";
 

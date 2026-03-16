@@ -41,16 +41,6 @@ const projects = [
     image: tubeFittingsImg,
     organization: "Organic Robotics Laboratory"
   },
-  {
-    id: 4,
-    title: "TumbleTote Laundry Caddy",
-    description: "Dorm room and apartment laundry organization system for people on the go",
-    fullDescription: "Dorm room and apartment laundry organization system for people on the go",
-    color: "sage",
-    tags: ["Voice of Customer", "3D Modeling (Blender)", "Rapid Prototyping (Hand tools, sewing)"],
-    image: tumbleToteImg,
-    organization: "MAE 4341 - Innovative Product Design via Digital Manufacturing"
-  },
 ];
 
 const Index = () => {

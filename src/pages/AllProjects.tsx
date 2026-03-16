@@ -32,7 +32,8 @@ const projects = [
     color: "purple",
     tags: ["3D Printing (Prusa)", "CAD (Autodesk Fusion360)"],
     image: penHoldersImg,
-    organization: "Cornell Assistive Technologies"
+    organization: "Cornell Assistive Technologies",
+    date: "Spring 2024"
   },
   {
     id: 2,

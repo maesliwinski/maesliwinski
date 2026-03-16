@@ -193,8 +193,10 @@ const Index = () => {
               />
               <div className="flex-1">
                 <p className="text-sm text-muted-foreground mb-1">{project.organization}</p>
-                <h3 className="text-2xl font-agrandir mb-2">{project.title}</h3>
-                {project.date && <p className="text-sm text-muted-foreground mb-2">{project.date}</p>}
+                <div className="flex items-start justify-between gap-4 mb-2">
+                  <h3 className="text-2xl font-agrandir">{project.title}</h3>
+                  {project.date && <p className="text-sm text-muted-foreground whitespace-nowrap">{project.date}</p>}
+                </div>
                 <p className="text-base mb-4">{project.description}</p>
                       <div className="flex flex-wrap gap-2">
                         {project.tags.map((tag, tagIndex) => (

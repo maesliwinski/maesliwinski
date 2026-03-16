@@ -19,6 +19,7 @@ const projects = [
     image: seniorDesignImg,
     organization: "Senior Design Project",
     link: "/seniordesign",
+    date: "2026"
   },
   {
     id: 1,
@@ -29,7 +30,8 @@ const projects = [
     color: "orange",
     tags: ["JavaScript", "Artificial Intelligence", "HTML/CSS", "Root Cause Analysis"],
     image: amazonInternshipImg,
-    organization: "Internship at Amazon"
+    organization: "Internship at Amazon",
+    date: "Summer 2025"
   },
   {
     id: 3,
@@ -39,7 +41,8 @@ const projects = [
     color: "blue",
     tags: ["SolidWorks", "3D Printing (Figure 4)", "Hand Calculations"],
     image: tubeFittingsImg,
-    organization: "Organic Robotics Laboratory"
+    organization: "Organic Robotics Laboratory",
+    date: "Nov 2025"
   },
 ];
 

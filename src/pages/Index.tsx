@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import headshotImg from "@/assets/headshot.jpg";
 import tubeFittingsImg from "@/assets/tube-fittings.jpg";
-import tumbleToteImg from "@/assets/tumbletote.png";
+
 import amazonInternshipImg from "@/assets/amazon-internship.png";
 import seniorDesignImg from "@/assets/splint.png";
 
@@ -40,16 +40,6 @@ const projects = [
     tags: ["SolidWorks", "3D Printing (Figure 4)", "Hand Calculations"],
     image: tubeFittingsImg,
     organization: "Organic Robotics Laboratory"
-  },
-  {
-    id: 4,
-    title: "TumbleTote Laundry Caddy",
-    description: "Dorm room and apartment laundry organization system for people on the go",
-    fullDescription: "Dorm room and apartment laundry organization system for people on the go",
-    color: "sage",
-    tags: ["Voice of Customer", "3D Modeling (Blender)", "Rapid Prototyping (Hand tools, sewing)"],
-    image: tumbleToteImg,
-    organization: "MAE 4341 - Innovative Product Design via Digital Manufacturing"
   },
 ];
 

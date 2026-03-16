@@ -11,13 +11,13 @@ import seniorDesignImg from "@/assets/splint.png";
 const projects = [
   {
     id: 0,
-    title: "Senior Design Project",
+    title: "Universal Cuff Orthosis Generator",
     description: "Work in Progress",
     fullDescription: "",
     color: "sage",
     tags: ["CAD (SolidWorks)", "Parametric Modeling", "JavaScript CAD", "3D Printing (Bambu)"],
     image: seniorDesignImg,
-    organization: "Senior Design",
+    organization: "Senior Design Project",
     link: "/seniordesign",
   },
   {

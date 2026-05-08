@@ -157,7 +157,7 @@ const Index = () => {
             <a href="https://www.linkedin.com/in/mae-sliwinski-771a76237/" target="_blank" rel="noopener noreferrer" className="p-4 rounded-full bg-purple/20 border-2 border-purple hover:bg-purple/30 transition-all">
               <Linkedin className="h-6 w-6" />
             </a>
-            <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="p-4 rounded-full bg-blue/20 border-2 border-blue hover:bg-blue/30 transition-all">
+            <a href="https://github.com/maesliwinski" target="_blank" rel="noopener noreferrer" className="p-4 rounded-full bg-blue/20 border-2 border-blue hover:bg-blue/30 transition-all">
               <Github className="h-6 w-6" />
             </a>
           </div>

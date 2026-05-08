@@ -600,15 +600,6 @@ function exportSTL(){
   a.download=`cuff_L${P.len}_W${P.w.toFixed(1)}_T${P.thick}.stl`;a.click();
   toast('STL downloaded ✓ (units: mm)');
 }
-function exportOBJ(){
-  const geo=buildGeo();const ni=geo.index?geo.toNonIndexed():geo;const pos=ni.attributes.position;
-  let obj=`# UNIVERSAL-CUFF\no cuff\n`;
-  for(let i=0;i<pos.count;i++)obj+=`v ${pos.getX(i).toFixed(4)} ${pos.getY(i).toFixed(4)} ${pos.getZ(i).toFixed(4)}\n`;
-  for(let i=0;i<pos.count;i+=3)obj+=`f ${i+1} ${i+2} ${i+3}\n`;
-  const blob=new Blob([obj],{type:'text/plain'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`cuff_L${P.len}.obj`;a.click();
-  toast('OBJ downloaded ✓');
-}
 function toggleXray(){
   xrayOn=!xrayOn;applyXray();
   const btn=document.getElementById('btn-xray');

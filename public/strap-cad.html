@@ -98,8 +98,6 @@
   .hbtn:focus-visible { outline: 3px solid var(--orange); outline-offset: 2px; }
   .hbtn-stl { background: var(--sage); }
   .hbtn-stl:hover { background: var(--sage2); transform: translateY(-1px); }
-  .hbtn-obj { background: var(--purple); }
-  .hbtn-obj:hover { background: var(--purple2); transform: translateY(-1px); }
   .hbtn-xray { background: var(--cream); }
   .hbtn-xray:hover { background: var(--cream2); }
   .hbtn-xray.on { background: var(--purple); }
@@ -243,7 +241,6 @@
   <div class="logo">Palm <em>Band</em></div>
   <div class="header-btns">
     <button class="hbtn hbtn-stl" onclick="exportSTL()">⬇ STL</button>
-    <button class="hbtn hbtn-obj" onclick="exportOBJ()">⬇ OBJ</button>
     <button class="hbtn hbtn-xray" id="btn-xray" onclick="toggleXray()">◎ X-Ray</button>
     <button class="hbtn hbtn-hc" id="btn-hc" onclick="toggleHC()" aria-pressed="false" title="High contrast mode for accessibility">◐ High Contrast</button>
   </div>
@@ -602,15 +599,6 @@ function exportSTL(){
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);
   a.download=`cuff_L${P.len}_W${P.w.toFixed(1)}_T${P.thick}.stl`;a.click();
   toast('STL downloaded ✓ (units: mm)');
-}
-function exportOBJ(){
-  const geo=buildGeo();const ni=geo.index?geo.toNonIndexed():geo;const pos=ni.attributes.position;
-  let obj=`# UNIVERSAL-CUFF\no cuff\n`;
-  for(let i=0;i<pos.count;i++)obj+=`v ${pos.getX(i).toFixed(4)} ${pos.getY(i).toFixed(4)} ${pos.getZ(i).toFixed(4)}\n`;
-  for(let i=0;i<pos.count;i+=3)obj+=`f ${i+1} ${i+2} ${i+3}\n`;
-  const blob=new Blob([obj],{type:'text/plain'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`cuff_L${P.len}.obj`;a.click();
-  toast('OBJ downloaded ✓');
 }
 function toggleXray(){
   xrayOn=!xrayOn;applyXray();

@@ -12,7 +12,7 @@ const projects = [
   {
     id: 0,
     title: "Universal Cuff Orthosis Generator",
-    description: "Work in Progress - click to learn more!",
+    description: "An improved universal cuff design to assist with active grasps such as spearing and pointing.",
     fullDescription: "",
     color: "sage",
     tags: ["CAD (SolidWorks)", "Parametric Modeling", "JavaScript CAD", "3D Printing (Bambu)"],

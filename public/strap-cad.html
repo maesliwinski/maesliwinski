@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Strap CAD Viewer</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>
+  :root {
+    --cream:   #f5ede6;
+    --cream2:  #f0e4d8;
+    --peach:   #f5c9a8;
+    --orange:  #e8956d;
+    --orange2: #d4784e;
+    --sage:    #8fa870;
+    --sage2:   #7a9460;
+    --lavender:#9b8fb5;
+    --sky:     #7bb8d4;
+    --ink:     #1a1612;
+    --ink2:    #3d3128;
+    --muted:   #7a6a5a;
+    --border:  #c9a882;
+    --white:   #fffaf6;
+    --font:    'Georgia', 'Times New Roman', serif;
+    --sans:    system-ui, -apple-system, sans-serif;
+    --radius:  16px;
+    --pill:    999px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--cream); color: var(--ink); font-family: var(--sans); height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+  header { background: var(--white); border-bottom: 2.5px solid var(--orange); padding: 0 28px; height: 58px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+  .logo { font-family: var(--font); font-size: 20px; color: var(--ink); letter-spacing: -.02em; }
+  .logo em { color: var(--orange); font-style: normal; }
+  .header-btns { display: flex; gap: 10px; }
+  .hbtn { display: flex; align-items: center; gap: 7px; padding: 8px 20px; border-radius: var(--pill); border: 2px solid var(--ink); font-size: 14px; font-weight: 600; cursor: pointer; transition: all .15s; font-family: var(--sans); }
+  .hbtn-stl { background: var(--sage); color: var(--white); border-color: var(--ink); }
+  .hbtn-stl:hover { background: var(--sage2); transform: translateY(-1px); }
+  .hbtn-obj { background: var(--sky); color: var(--ink); border-color: var(--ink); }
+  .hbtn-obj:hover { background: #6aaec8; transform: translateY(-1px); }
+  .hbtn-xray { background: var(--cream); color: var(--ink); border-color: var(--border); }
+  .hbtn-xray:hover { background: var(--peach); }
+  .hbtn-xray.on { background: var(--lavender); color: var(--white); border-color: var(--ink); }
+  .layout { display: grid; grid-template-columns: 320px 1fr; flex: 1; overflow: hidden; }
+  .sidebar { background: var(--white); border-right: 2.5px solid var(--orange); overflow-y: auto; padding: 0 0 24px; }
+  .sidebar::-webkit-scrollbar { width: 6px; }
+  .sidebar::-webkit-scrollbar-track { background: var(--cream); }
+  .sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border-bottom: 2px solid var(--peach); }
+  .stat { padding: 12px 16px; border-right: 1px solid var(--peach); border-bottom: 1px solid var(--peach); }
+  .stat:nth-child(even) { border-right: none; }
+  .stat-l { font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; }
+  .stat-v { font-size: 18px; font-weight: 700; color: var(--ink); line-height: 1; }
+  .stat-u { font-size: 10px; color: var(--muted); font-weight: 400; }
+  .sec { border-bottom: 2px solid var(--peach); }
+  .sec-h { padding: 13px 18px; font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--ink2); background: var(--cream2); display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none; border: none; width: 100%; text-align: left; }
+  .sec-h:hover { background: var(--peach); }
+  .sec-h .arr { font-size: 12px; color: var(--orange); transition: transform .2s; }
+  .sec-h.open .arr { transform: rotate(180deg); }
+  .sec-b { padding: 14px 18px; }
+  .param { margin-bottom: 18px; }
+  .param:last-child { margin-bottom: 0; }
+  .param-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px; }
+  .param-name { font-size: 13px; font-weight: 600; color: var(--ink); }
+  .param-val { font-size: 13px; font-weight: 700; color: var(--orange2); background: transparent; border: none; width: 62px; text-align: right; outline: none; cursor: text; font-family: var(--sans); }
+  .param-val:focus { color: var(--lavender); }
+  .param-desc { font-size: 11px; color: var(--muted); margin-bottom: 7px; line-height: 1.4; }
+  input[type=range] { -webkit-appearance: none; width: 100%; height: 6px; background: var(--peach); border-radius: 3px; outline: none; cursor: pointer; }
+  input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; background: var(--orange); border: 2.5px solid var(--white); box-shadow: 0 1px 4px rgba(0,0,0,.2); cursor: pointer; }
+  input[type=range]::-webkit-slider-thumb:hover { background: var(--orange2); }
+  .ro-val { display: inline-block; padding: 3px 10px; background: var(--cream); border: 1.5px solid var(--border); border-radius: var(--pill); font-size: 12px; font-weight: 600; color: var(--sage2); }
+  .presets { padding: 12px 18px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .preset { padding: 7px 16px; border-radius: var(--pill); border: 2px solid var(--ink); background: var(--cream); font-size: 12px; font-weight: 600; cursor: pointer; font-family: var(--sans); transition: all .12s; }
+  .preset:hover { background: var(--peach); transform: translateY(-1px); }
+  .mag-table { width: 100%; font-size: 11px; border-collapse: collapse; margin-top: 8px; }
+  .mag-table td { padding: 4px 6px; border-bottom: 1px solid var(--peach); }
+  .mag-table td:first-child { color: var(--muted); }
+  .mag-table td:last-child { font-weight: 700; color: var(--ink2); text-align: right; }
+  .callout { margin: 0 18px 12px; padding: 10px 14px; background: var(--cream2); border-left: 3px solid var(--orange); border-radius: 0 var(--radius) var(--radius) 0; font-size: 11px; color: var(--muted); line-height: 1.5; }
+  .callout strong { color: var(--orange2); }
+  .viewport { position: relative; background: #f9f4ef; }
+  #canvas { display: block; width: 100%; height: 100%; }
+  .hud { position: absolute; top: 14px; left: 16px; pointer-events: none; font-size: 11px; line-height: 2; color: var(--muted); }
+  .hv { color: var(--ink); font-weight: 700; }
+  .vctrls { position: absolute; bottom: 16px; right: 16px; display: flex; flex-direction: column; gap: 6px; }
+  .vb { width: 40px; height: 40px; border-radius: var(--pill); border: 2px solid var(--border); background: var(--white); color: var(--ink2); font-size: 13px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all .12s; font-family: var(--sans); }
+  .vb:hover { background: var(--peach); border-color: var(--orange); }
+  .dimbar { position: absolute; bottom: 16px; left: 16px; background: var(--white); border: 1.5px solid var(--border); border-radius: var(--pill); padding: 6px 16px; font-size: 11px; color: var(--muted); pointer-events: none; display: flex; gap: 14px; }
+  .dimbar .dk { color: var(--orange2); font-weight: 700; margin-right: 3px; }
+  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: var(--ink); color: var(--white); padding: 10px 22px; border-radius: var(--pill); font-size: 13px; opacity: 0; transition: opacity .3s; pointer-events: none; z-index: 100; }
+  .toast.on { opacity: 1; }
+  .divlabel { padding: 7px 18px 4px; font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--border); }
+  .unit-toggle { display: flex; gap: 2px; background: var(--cream2); border: 2px solid var(--border); border-radius: var(--pill); padding: 3px; margin-left: 12px; }
+  .ubtn { padding: 5px 14px; border-radius: var(--pill); border: none; background: transparent; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--muted); font-family: var(--sans); transition: all .12s; }
+  .ubtn:hover { color: var(--ink); }
+  .ubtn.active { background: var(--orange); color: var(--white); }
+  .size-preset { width: 100%; padding: 10px 14px; border-radius: var(--radius); border: 2px solid var(--border); background: var(--cream); text-align: left; cursor: pointer; font-family: var(--sans); transition: all .12s; }
+  .size-preset:hover { background: var(--peach); border-color: var(--orange); transform: translateY(-1px); }
+  .sp-label { font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 2px; }
+  .sp-desc  { font-size: 11px; color: var(--muted); }
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">Strap <em>CAD</em> Viewer</div>
+  <div class="header-btns">
+    <button class="hbtn hbtn-stl" onclick="exportSTL()">⬇ Download STL</button>
+    <button class="hbtn hbtn-obj" onclick="exportOBJ()">⬇ Download OBJ</button>
+    <button class="hbtn hbtn-xray" id="btn-xray" onclick="toggleXray()">◎ X-Ray</button>
+  </div>
+  <div class="unit-toggle">
+    <button class="ubtn active" id="ubtn-mm" onclick="setUnit('mm')">mm</button>
+    <button class="ubtn" id="ubtn-cm" onclick="setUnit('cm')">cm</button>
+    <button class="ubtn" id="ubtn-in" onclick="setUnit('in')">in</button>
+  </div>
+</header>
+<div class="layout">
+  <div class="sidebar">
+    <div class="stats">
+      <div class="stat"><div class="stat-l">Length</div><div class="stat-v" id="st-len">—</div></div>
+      <div class="stat"><div class="stat-l">Width</div><div class="stat-v" id="st-w">—</div></div>
+      <div class="stat"><div class="stat-l">Thickness</div><div class="stat-v" id="st-t">—</div></div>
+      <div class="stat"><div class="stat-l">Mag Ceiling</div><div class="stat-v">0.45 <span class="stat-u">mm</span></div></div>
+    </div>
+    <div class="sec">
+      <button class="sec-h open" onclick="togSec(this)">Bar Shape <span class="arr">▼</span></button>
+      <div class="sec-b">
+        <div class="param"><div class="param-top"><span class="param-name">Total Length</span><input class="param-val" id="v-len" value="265" onchange="fi('len',this.value)"></div><div class="param-desc">Overall length of the strap from end to end, in millimeters.</div><input type="range" id="s-len" min="150" max="400" step="5" value="265" oninput="up('len',this.value)"></div>
+        <div class="param"><div class="param-top"><span class="param-name">Bar Width</span><input class="param-val" id="v-w" value="27.82" onchange="fi('w',this.value)"></div><div class="param-desc">Width of the flat strap body (measured across the palm side).</div><input type="range" id="s-w" min="15" max="45" step="0.5" value="27.82" oninput="up('w',this.value)"></div>
+        <div class="param"><div class="param-top"><span class="param-name">Thickness</span><input class="param-val" id="v-thick" value="4.0" onchange="fi('thick',this.value)"></div><div class="param-desc">How tall/thick the printed band is. Affects magnet pocket depth.</div><input type="range" id="s-thick" min="2" max="10" step="0.1" value="4.0" oninput="up('thick',this.value)"></div>
+        <div class="param"><div class="param-top"><span class="param-name">Corner Radius</span><input class="param-val" id="v-cr" value="5.0" onchange="fi('cr',this.value)"></div><div class="param-desc">Rounding on the four corners of each end of the strap.</div><input type="range" id="s-cr" min="2" max="12" step="0.5" value="5.0" oninput="up('cr',this.value)"></div>
+      </div>
+    </div>
+    <div class="sec">
+      <button class="sec-h open" onclick="togSec(this)">Neck / Waist <span class="arr">▼</span></button>
+      <div class="sec-b">
+        <div class="param"><div class="param-top"><span class="param-name">Neck Depth</span><input class="param-val" id="v-nd" value="3.5" onchange="fi('nd',this.value)"></div><div class="param-desc">How much the strap narrows at the waist — applied equally to both top and bottom edges.</div><input type="range" id="s-nd" min="0.5" max="10" step="0.25" value="3.5" oninput="up('nd',this.value)"></div>
+        <div class="param"><div class="param-top"><span class="param-name">Neck Position</span><input class="param-val" id="v-nx" value="105" onchange="fi('nx',this.value)"></div><div class="param-desc">How far from the left end the center of the waist sits (mm).</div><input type="range" id="s-nx" min="50" max="200" step="2" value="105" oninput="up('nx',this.value)"></div>
+        <div class="param"><div class="param-top"><span class="param-name">Neck Span</span><input class="param-val" id="v-ns" value="30" onchange="fi('ns',this.value)"></div><div class="param-desc">Half-width of the tapered neck region. Larger = longer, smoother transition.</div><input type="range" id="s-ns" min="10" max="60" step="1" value="30" oninput="up('ns',this.value)"></div>
+      </div>
+    </div>
+    <div class="sec">
+      <button class="sec-h open" onclick="togSec(this)">Palm Rise (top curve) <span class="arr">▼</span></button>
+      <div class="sec-b">
+        <div class="param"><div class="param-top"><span class="param-name">Rise Height</span><input class="param-val" id="v-pr" value="3.8" onchange="fi('pr',this.value)"></div><div class="param-desc">How high the curved arch rises above the flat band to contour the palm.</div><input type="range" id="s-pr" min="0" max="8" step="0.1" value="3.8" oninput="up('pr',this.value)"></div>
+        <div class="param"><div class="param-top"><span class="param-name">Peak Position</span><input class="param-val" id="v-sk" value="-12" onchange="fi('sk',this.value)"></div><div class="param-desc">Shifts the peak of the arch. 0 = at neck exit. Negative = further left (inside neck). Positive = toward the slots.</div><input type="range" id="s-sk" min="-40" max="80" step="1" value="-12" oninput="up('sk',this.value)"></div>
+      </div>
+    </div>
+    <div class="sec">
+      <button class="sec-h open" onclick="togSec(this)">Slots — 4 Total <span class="arr">▼</span></button>
+      <div class="sec-b">
+        <div class="param"><div class="param-top"><span class="param-name">Slot Scale</span><input class="param-val" id="v-ssc" value="1.00" onchange="fi('ssc',this.value)"></div><div class="param-desc">Uniformly scales all 4 slots up or down. Keeps the dumbbell shape proportional.</div><input type="range" id="s-ssc" min="0.4" max="2.0" step="0.05" value="1.0" oninput="up('ssc',this.value)"></div>
+        <div class="divlabel">Shape (base)</div>
+        <div class="param"><div class="param-top"><span class="param-name">Cap Radius</span><input class="param-val" id="v-sr" value="3.2" onchange="fi('sr',this.value)"></div><div class="param-desc">Radius of the rounded circle at each end of the dumbbell slot.</div><input type="range" id="s-sr" min="1" max="6" step="0.1" value="3.2" oninput="up('sr',this.value)"></div>
+        <div class="param"><div class="param-top"><span class="param-name">Body Half-Width</span><input class="param-val" id="v-br" value="2.2" onchange="fi('br',this.value)"></div><div class="param-desc">Width of the narrow connecting bridge between the two circles.</div><input type="range" id="s-br" min="0.5" max="5" step="0.1" value="2.2" oninput="up('br',this.value)"></div>
+        <div class="param"><div class="param-top"><span class="param-name">Slot Body Length</span><input class="param-val" id="v-sl" value="7.0" onchange="fi('sl',this.value)"></div><div class="param-desc">Length of the straight section between the two cap circles.</div><input type="range" id="s-sl" min="2" max="16" step="0.5" value="7.0" oninput="up('sl',this.value)"></div>
+        <div class="divlabel">Placement</div>
+        <div class="param"><div class="param-top"><span class="param-name">Neck Pair Gap</span><input class="param-val" id="v-sg" value="10" onchange="fi('sg',this.value)"></div><div class="param-desc">Distance between the two close-together slots in the neck area.</div><input type="range" id="s-sg" min="4" max="22" step="0.5" value="10" oninput="up('sg',this.value)"></div>
+        <div class="param"><div class="param-top"><span class="param-name">Palm Left Slot</span><input class="param-val" id="v-pp" value="46" onchange="fi('pp',this.value)"></div><div class="param-desc">Distance from the neck center to the first (left) palm slot.</div><input type="range" id="s-pp" min="20" max="120" step="2" value="46" oninput="up('pp',this.value)"></div>
+        <div class="param"><div class="param-top"><span class="param-name">Palm Slot Spread</span><input class="param-val" id="v-ps" value="40" onchange="fi('ps',this.value)"></div><div class="param-desc">Spacing between the two wider-apart palm slots (≥18 mm recommended).</div><input type="range" id="s-ps" min="14" max="60" step="1" value="40" oninput="up('ps',this.value)"></div>
+      </div>
+    </div>
+    <div class="sec">
+      <button class="sec-h open" onclick="togSec(this)">Magnet Recesses <span class="arr">▼</span></button>
+      <div class="sec-b">
+        <div class="callout"><strong>Print-pause pockets.</strong> Pause at the layer set by Z Offset, drop magnets in, then resume. Pocket depth is auto-calculated so exactly <strong>0.45 mm</strong> of plastic remains above each magnet.</div>
+        <div class="param"><div class="param-top"><span class="param-name">Magnet Diameter</span><input class="param-val" id="v-md" value="14.9" onchange="fi('md',this.value)"></div><div class="param-desc">Diameter of the cylindrical magnet pocket. Match your magnet size.</div><input type="range" id="s-md" min="8" max="22" step="0.1" value="14.9" oninput="up('md',this.value)"></div>
+        <div class="param"><div class="param-top"><span class="param-name">Z Offset (pause layer)</span><input class="param-val" id="v-mo" value="1.0" onchange="fi('mo',this.value)"></div><div class="param-desc">Height from the bottom face where the pocket starts. Set your slicer pause at this exact height.</div><input type="range" id="s-mo" min="0" max="3" step="0.05" value="1.0" oninput="up('mo',this.value)"></div>
+        <div class="param"><div class="param-top"><span class="param-name">Pocket Depth (auto)</span><span class="ro-val" id="ro-mz">—</span></div><div class="param-desc">Auto-calculated: Thickness − Z Offset − 0.45 mm ceiling.</div></div>
+        <div class="divlabel">Position — mirrored at both ends</div>
+        <div class="param"><div class="param-top"><span class="param-name">Inner Magnet from End</span><input class="param-val" id="v-m1" value="14.0" onchange="fi('m1',this.value)"></div><div class="param-desc">Distance from the end of the strap to the magnet closest to center.</div><input type="range" id="s-m1" min="8" max="50" step="0.5" value="14.0" oninput="up('m1',this.value)"></div>
+        <div class="param"><div class="param-top"><span class="param-name">Outer Magnet from End</span><input class="param-val" id="v-m2" value="34.217" onchange="fi('m2',this.value)"></div><div class="param-desc">Distance from the end of the strap to the magnet closest to the edge.</div><input type="range" id="s-m2" min="20" max="70" step="0.1" value="34.217" oninput="up('m2',this.value)"></div>
+      </div>
+      <table class="mag-table" style="margin:0 18px 14px;width:calc(100% - 36px)">
+        <tr><td>Left outer X</td><td id="dm-lo">—</td></tr>
+        <tr><td>Left inner X</td><td id="dm-li">—</td></tr>
+        <tr><td>Right inner X</td><td id="dm-ri">—</td></tr>
+        <tr><td>Right outer X</td><td id="dm-ro">—</td></tr>
+      </table>
+    </div>
+    <div class="sec">
+      <button class="sec-h open" onclick="togSec(this)">Size Presets <span class="arr">▼</span></button>
+      <div class="sec-b">
+        <div style="font-size:11px;color:var(--muted);margin-bottom:10px;line-height:1.5;">Select a size based on the wearer's hand. All dimensions scale proportionally.</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <button class="size-preset" onclick="ap('xs')"><div class="sp-label">XS — Child</div><div class="sp-desc">Ages ~4–8 · small palm · ~155 mm strap</div></button>
+          <button class="size-preset" onclick="ap('sm')"><div class="sp-label">S — Youth / Small Adult</div><div class="sp-desc">Ages ~9–14 or petite adult · ~195 mm strap</div></button>
+          <button class="size-preset" onclick="ap('md')"><div class="sp-label">M — Medium Adult</div><div class="sp-desc">Average adult hand · ~235 mm strap</div></button>
+          <button class="size-preset" onclick="ap('lg')"><div class="sp-label">L — Large Adult</div><div class="sp-desc">Large adult hand · ~275 mm strap</div></button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="viewport">
+    <canvas id="canvas"></canvas>
+    <div class="hud">
+      <div>Strap CAD · v10</div>
+      <div>Verts <span class="hv" id="h-v">—</span></div>
+      <div>Tris <span class="hv" id="h-t">—</span></div>
+    </div>
+    <div class="dimbar">
+      <span><span class="dk">L</span><span id="d-l">—</span></span>
+      <span><span class="dk">W</span><span id="d-w">—</span></span>
+      <span><span class="dk">T</span><span id="d-t">—</span></span>
+      <span><span class="dk">Mag depth</span><span id="d-mz">—</span></span>
+    </div>
+    <div class="vctrls">
+      <button class="vb" onclick="sv('top')" title="Top view">T</button>
+      <button class="vb" onclick="sv('front')" title="Front view">F</button>
+      <button class="vb" onclick="sv('iso')" title="Isometric">I</button>
+      <button class="vb" onclick="fit()" title="Fit all">⊡</button>
+      <button class="vb" onclick="tortho()" title="Toggle ortho" id="btn-ortho" style="font-size:10px">P</button>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+const canvas=document.getElementById('canvas');
+const vp=canvas.parentElement;
+const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
+renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+renderer.setClearColor(0xf9f4ef,1);
+const perspCam=new THREE.PerspectiveCamera(40,1,0.1,5000);
+const orthoCam=new THREE.OrthographicCamera(-200,200,100,-100,0.1,5000);
+let camera=perspCam,useOrtho=false;
+const scene=new THREE.Scene();
+scene.add(new THREE.AmbientLight(0xffffff,0.65));
+const d1=new THREE.DirectionalLight(0xfff5ee,0.8);d1.position.set(80,180,140);scene.add(d1);
+const d2=new THREE.DirectionalLight(0xe8c4a0,0.25);d2.position.set(-80,-40,80);scene.add(d2);
+const d3=new THREE.DirectionalLight(0xffffff,0.2);d3.position.set(0,-80,-80);scene.add(d3);
+const grid=new THREE.GridHelper(800,80,0xd4b896,0xe8d4c0);grid.position.y=-12;scene.add(grid);
+let sph={theta:-0.45,phi:1.05,r:380},drag=false,lx=0,ly=0;
+function ucam(){
+  const x=sph.r*Math.sin(sph.phi)*Math.sin(sph.theta);
+  const y=sph.r*Math.cos(sph.phi);
+  const z=sph.r*Math.sin(sph.phi)*Math.cos(sph.theta);
+  camera.position.set(x,y,z);camera.lookAt(0,0,0);
+  if(useOrtho){const a=sph.r*(vp.clientWidth/vp.clientHeight)*0.5;orthoCam.left=-a;orthoCam.right=a;orthoCam.top=sph.r*0.5;orthoCam.bottom=-sph.r*0.5;orthoCam.updateProjectionMatrix();}
+}
+canvas.addEventListener('mousedown',e=>{drag=true;lx=e.clientX;ly=e.clientY;});
+canvas.addEventListener('mouseup',()=>drag=false);
+canvas.addEventListener('mouseleave',()=>drag=false);
+canvas.addEventListener('mousemove',e=>{
+  if(!drag)return;
+  sph.theta-=(e.clientX-lx)*0.007;
+  sph.phi=Math.max(0.05,Math.min(Math.PI-0.05,sph.phi+(e.clientY-ly)*0.007));
+  lx=e.clientX;ly=e.clientY;ucam();
+});
+canvas.addEventListener('wheel',e=>{sph.r=Math.max(40,Math.min(1200,sph.r+e.deltaY*0.5));ucam();},{passive:true});
+const MAG_CEIL=0.45;
+const P={
+  len:265,w:27.82,thick:4.0,cr:5.0,
+  nd:3.5,nx:105,ns:30,
+  pr:3.8,sk:-12,
+  ssc:1.0,sr:3.2,br:2.2,sl:7.0,sg:10,pp:46,ps:40,
+  md:14.9,mo:1.0,m1:14.0,m2:34.217
+};
+function getMz(){return Math.max(0.1,P.thick-P.mo-MAG_CEIL);}
+let unit='mm';
+const CONV={mm:1, cm:0.1, in:1/25.4};
+const PREC={mm:2, cm:3, in:4};
+const UNITLESS=new Set(['ssc']);
+const SCFG={
+  len:{min:150,max:400,step:5},    w:{min:15,max:45,step:0.5},
+  thick:{min:2,max:10,step:0.1},   cr:{min:2,max:12,step:0.5},
+  nd:{min:0.5,max:10,step:0.25},   nx:{min:50,max:200,step:2},
+  ns:{min:10,max:60,step:1},       pr:{min:0,max:8,step:0.1},
+  sk:{min:-40,max:80,step:1},      ssc:{min:0.4,max:2.0,step:0.05},
+  sr:{min:1,max:6,step:0.1},       br:{min:0.5,max:5,step:0.1},
+  sl:{min:2,max:16,step:0.5},      sg:{min:4,max:22,step:0.5},
+  pp:{min:20,max:120,step:2},      ps:{min:14,max:60,step:1},
+  md:{min:8,max:22,step:0.1},      mo:{min:0,max:3,step:0.05},
+  m1:{min:8,max:50,step:0.5},      m2:{min:20,max:70,step:0.1}
+};
+function fromU(v,id){return UNITLESS.has(id)?v:v/CONV[unit];}
+function fmtU(mm,id){
+  if(UNITLESS.has(id)) return parseFloat(mm).toFixed(2);
+  const v=mm*CONV[unit];
+  return v.toFixed(id==='m2'&&unit==='mm'?3:PREC[unit]);
+}
+function setUnit(u){
+  unit=u;
+  ['mm','cm','in'].forEach(x=>{document.getElementById('ubtn-'+x).classList.toggle('active',x===u);});
+  Object.keys(SCFG).forEach(id=>{
+    const sl=document.getElementById('s-'+id);
+    const ve=document.getElementById('v-'+id);
+    if(!sl) return;
+    if(UNITLESS.has(id)){sl.value=P[id];if(ve) ve.value=P[id].toFixed(2);return;}
+    const c=CONV[u], cfg=SCFG[id];
+    sl.min=(cfg.min*c).toFixed(6);sl.max=(cfg.max*c).toFixed(6);sl.step=(cfg.step*c).toFixed(6);
+    sl.value=(P[id]*c).toFixed(6);
+    if(ve) ve.value=fmtU(P[id],id);
+  });
+  rebuild();
+}
+function up(id,val){
+  const raw=parseFloat(val);
+  P[id]=UNITLESS.has(id)?raw:fromU(raw,id);
+  const ve=document.getElementById('v-'+id);
+  if(ve) ve.value=fmtU(P[id],id);
+  rebuild();
+}
+function fi(id,val){
+  const raw=parseFloat(val);if(isNaN(raw))return;
+  P[id]=UNITLESS.has(id)?raw:fromU(raw,id);
+  const sl=document.getElementById('s-'+id);
+  if(sl) sl.value=UNITLESS.has(id)?P[id]:(P[id]*CONV[unit]).toFixed(6);
+  rebuild();
+}
+function safeSlot(){
+  const hw=P.w/2;
+  const minHalf=hw-P.nd;
+  const maxSc=(minHalf*0.85)/(P.sr+P.sl/2);
+  const sc=Math.min(P.ssc,maxSc);
+  const capR=P.sr*sc;
+  const bodyR=Math.min(P.br*sc,capR*0.95);
+  const bodyL=P.sl*sc;
+  return{capR,bodyR,bodyL};
+}
+function makeDogboneHole(cx,cy,capR,bodyR,bodyL){
+  const h=bodyL/2,N=24;
+  const yOff=Math.sqrt(Math.max(0,capR*capR-bodyR*bodyR));
+  const pts=[];
+  const taR=Math.atan2(-yOff,bodyR),taL=Math.atan2(-yOff,-bodyR);
+  let a0=taR,a1=taL;if(a1<=a0)a1+=2*Math.PI;
+  for(let i=0;i<=N;i++){const a=a0+(a1-a0)*i/N;pts.push([cx+capR*Math.cos(a),cy+h+capR*Math.sin(a)]);}
+  pts.push([cx-bodyR,cy-h+yOff]);
+  const baL=Math.atan2(yOff,-bodyR),baR=Math.atan2(yOff,bodyR);
+  let b0=baL,b1=baR;if(b1<=b0)b1+=2*Math.PI;
+  for(let i=0;i<=N;i++){const a=b0+(b1-b0)*i/N;pts.push([cx+capR*Math.cos(a),cy-h+capR*Math.sin(a)]);}
+  const hole=new THREE.Path();
+  hole.moveTo(pts[0][0],pts[0][1]);
+  for(let i=1;i<pts.length;i++)hole.lineTo(pts[i][0],pts[i][1]);
+  hole.closePath();
+  return hole;
+}
+function buildShape(){
+  const{len,w,cr,nd,nx,ns,sk}=P;
+  const palmRise=P.pr;
+  const hw=w/2;
+  const nL=nx-ns,nR=nx+ns,ap=ns*0.4;
+  const botWaist=-hw+nd,topWaist=hw-nd;
+  const palmCx=Math.min(len-cr-4,Math.max(nx+2,nR+ap+sk));
+  const shape=new THREE.Shape();
+  shape.moveTo(cr,-hw);
+  shape.lineTo(nL-ap,-hw);
+  shape.bezierCurveTo(nL-ap*0.1,-hw,nx-ap*0.2,botWaist,nx,botWaist);
+  shape.bezierCurveTo(nx+ap*0.2,botWaist,nR+ap*0.1,-hw,nR+ap,-hw);
+  shape.lineTo(len-cr,-hw);
+  shape.quadraticCurveTo(len,-hw,len,-hw+cr);
+  shape.lineTo(len,hw-cr);
+  shape.quadraticCurveTo(len,hw,len-cr,hw);
+  if(palmRise>0.01){
+    const rSpan=len-cr-palmCx;
+    shape.bezierCurveTo(len-cr-rSpan*0.25,hw,palmCx+rSpan*0.20,hw+palmRise,palmCx,hw+palmRise);
+    if(palmCx>=nR+ap){
+      const lSpan=palmCx-(nR+ap);
+      shape.bezierCurveTo(palmCx-lSpan*0.20,hw+palmRise,nR+ap+lSpan*0.25,hw,nR+ap,hw);
+      shape.bezierCurveTo(nR+ap*0.1,hw,nx+ap*0.2,topWaist,nx,topWaist);
+    } else {
+      const span=palmCx-nx;
+      shape.bezierCurveTo(palmCx-span*0.30,hw+palmRise,nx+span*0.30,topWaist,nx,topWaist);
+    }
+  } else {
+    shape.lineTo(nR+ap,hw);
+    shape.bezierCurveTo(nR+ap*0.1,hw,nx+ap*0.2,topWaist,nx,topWaist);
+  }
+  shape.bezierCurveTo(nx-ap*0.2,topWaist,nL-ap*0.1,hw,nL-ap,hw);
+  shape.lineTo(cr,hw);
+  shape.quadraticCurveTo(0,hw,0,hw-cr);
+  shape.lineTo(0,-hw+cr);
+  shape.quadraticCurveTo(0,-hw,cr,-hw);
+  shape.closePath();
+  return shape;
+}
+function buildGeo(){
+  const shape=buildShape();
+  const{nx,sg,pp,ps}=P;
+  const{capR,bodyR,bodyL}=safeSlot();
+  shape.holes.push(makeDogboneHole(nx-sg/2,0,capR,bodyR,bodyL));
+  shape.holes.push(makeDogboneHole(nx+sg/2,0,capR,bodyR,bodyL));
+  shape.holes.push(makeDogboneHole(nx+pp,  0,capR,bodyR,bodyL));
+  shape.holes.push(makeDogboneHole(nx+pp+ps,0,capR,bodyR,bodyL));
+  const geo=new THREE.ExtrudeGeometry(shape,{depth:P.thick,bevelEnabled:true,bevelThickness:0.3,bevelSize:0.3,bevelSegments:2,curveSegments:32});
+  geo.center();
+  return geo;
+}
+function buildMagGeos(){
+  const{md,mo,thick,len,m1,m2}=P;
+  const mz=getMz(),r=md/2;
+  const zCyl=-thick/2+mo+mz/2,zRing=thick/2+0.5,offset=-len/2;
+  const cylGeo=new THREE.CylinderGeometry(r,r,mz,52);cylGeo.rotateX(Math.PI/2);
+  const cylMat=new THREE.MeshStandardMaterial({color:0x8a7060,roughness:0.3,metalness:0.6});
+  const ringGeo=new THREE.RingGeometry(r*0.68,r,52);
+  const ringMat=new THREE.MeshBasicMaterial({color:0xe8956d,side:THREE.DoubleSide,transparent:true,opacity:0.85});
+  const labels=['dm-lo','dm-li','dm-ri','dm-ro'];
+  const meshes=[];
+  [m2,m1,len-m1,len-m2].forEach((ax,i)=>{
+    const cx=ax+offset;
+    const cyl=new THREE.Mesh(cylGeo.clone(),cylMat);cyl.position.set(cx,0,zCyl);meshes.push(cyl);
+    const ring=new THREE.Mesh(ringGeo.clone(),ringMat);ring.position.set(cx,0,zRing);meshes.push(ring);
+    const el=document.getElementById(labels[i]);if(el)el.textContent=fmtU(ax,'len')+' '+unit;
+  });
+  return meshes;
+}
+let bodyMesh=null,wireMesh=null,magMeshes=[],xrayOn=false;
+const bodyMat=new THREE.MeshStandardMaterial({color:0xc4a882,roughness:0.5,metalness:0.05,side:THREE.DoubleSide});
+function applyXray(){bodyMat.transparent=xrayOn;bodyMat.opacity=xrayOn?0.22:1.0;bodyMat.depthWrite=!xrayOn;bodyMat.needsUpdate=true;}
+function rebuild(){
+  if(bodyMesh){scene.remove(bodyMesh);bodyMesh.geometry.dispose();}
+  if(wireMesh){scene.remove(wireMesh);wireMesh.geometry.dispose();}
+  magMeshes.forEach(m=>scene.remove(m));magMeshes=[];
+  let geo;try{geo=buildGeo();}catch(e){console.error(e);return;}
+  applyXray();
+  bodyMesh=new THREE.Mesh(geo,bodyMat);scene.add(bodyMesh);
+  magMeshes=buildMagGeos();magMeshes.forEach(m=>scene.add(m));
+  const mz=getMz();
+  document.getElementById('ro-mz').textContent=fmtU(mz,'thick')+' '+unit;
+  const v=geo.attributes.position.count;
+  const t=Math.round(geo.index?geo.index.count/3:v/3);
+  document.getElementById('h-v').textContent=v.toLocaleString();
+  document.getElementById('h-t').textContent=t.toLocaleString();
+  document.getElementById('st-len').innerHTML=fmtU(P.len,'len')+' <span class="stat-u">'+unit+'</span>';
+  document.getElementById('st-w').innerHTML=fmtU(P.w,'w')+' <span class="stat-u">'+unit+'</span>';
+  document.getElementById('st-t').innerHTML=fmtU(P.thick,'thick')+' <span class="stat-u">'+unit+'</span>';
+  document.getElementById('d-l').textContent=fmtU(P.len,'len')+unit;
+  document.getElementById('d-w').textContent=fmtU(P.w,'w')+unit;
+  document.getElementById('d-t').textContent=fmtU(P.thick,'thick')+unit;
+  document.getElementById('d-mz').textContent=fmtU(mz,'thick')+unit;
+}
+function exportSTL(){
+  const geo=buildGeo();
+  const ni=geo.index?geo.toNonIndexed():geo,pos=ni.attributes.position;
+  const tc=pos.count/3,buf=new ArrayBuffer(84+tc*50),dv=new DataView(buf);
+  const hdr=`STRAP L=${P.len}mm W=${P.w.toFixed(2)}mm T=${P.thick}mm`;
+  for(let i=0;i<80;i++)dv.setUint8(i,i<hdr.length?hdr.charCodeAt(i):0);
+  dv.setUint32(80,tc,true);
+  const vA=new THREE.Vector3(),vB=new THREE.Vector3(),vC=new THREE.Vector3();
+  const e1=new THREE.Vector3(),e2=new THREE.Vector3(),n=new THREE.Vector3();
+  let off=84;
+  for(let i=0;i<tc;i++){
+    vA.fromBufferAttribute(pos,i*3);vB.fromBufferAttribute(pos,i*3+1);vC.fromBufferAttribute(pos,i*3+2);
+    e1.subVectors(vB,vA);e2.subVectors(vC,vA);n.crossVectors(e1,e2).normalize();
+    [n.x,n.y,n.z,vA.x,vA.y,vA.z,vB.x,vB.y,vB.z,vC.x,vC.y,vC.z].forEach(v=>{dv.setFloat32(off,v,true);off+=4;});
+    dv.setUint16(off,0,true);off+=2;
+  }
+  const blob=new Blob([buf],{type:'application/octet-stream'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download=`strap_L${P.len}_W${P.w.toFixed(1)}_T${P.thick}.stl`;a.click();
+  toast('STL downloaded ✓ (units: mm)');
+}
+function exportOBJ(){
+  const geo=buildGeo();const ni=geo.index?geo.toNonIndexed():geo;const pos=ni.attributes.position;
+  let obj=`# STRAP-CAD\no strap\n`;
+  for(let i=0;i<pos.count;i++)obj+=`v ${pos.getX(i).toFixed(4)} ${pos.getY(i).toFixed(4)} ${pos.getZ(i).toFixed(4)}\n`;
+  for(let i=0;i<pos.count;i+=3)obj+=`f ${i+1} ${i+2} ${i+3}\n`;
+  const blob=new Blob([obj],{type:'text/plain'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`strap_L${P.len}.obj`;a.click();
+  toast('OBJ downloaded ✓');
+}
+function toggleXray(){
+  xrayOn=!xrayOn;applyXray();
+  const btn=document.getElementById('btn-xray');
+  btn.classList.toggle('on',xrayOn);
+  btn.textContent=xrayOn?'◎ X-Ray ON':'◎ X-Ray';
+  toast(xrayOn?'X-ray on — orange rings show magnet pocket centers':'X-ray off');
+}
+function tortho(){
+  useOrtho=!useOrtho;camera=useOrtho?orthoCam:perspCam;
+  perspCam.aspect=vp.clientWidth/vp.clientHeight;perspCam.updateProjectionMatrix();
+  document.getElementById('btn-ortho').textContent=useOrtho?'O':'P';
+  ucam();
+}
+function sv(v){
+  if(v==='top'){sph.theta=0;sph.phi=0.04;}
+  if(v==='front'){sph.theta=0;sph.phi=Math.PI/2;}
+  if(v==='iso'){sph.theta=-0.5;sph.phi=1.05;}
+  ucam();
+}
+function fit(){sph.r=380;ucam();}
+function togSec(el){
+  el.classList.toggle('open');
+  const b=el.nextElementSibling;
+  const isOpen=el.classList.contains('open');
+  b.style.display=isOpen?'block':'none';
+  el.querySelector('.arr').textContent=isOpen?'▼':'▶';
+}
+function toast(msg){
+  const t=document.getElementById('toast');t.textContent=msg;t.classList.add('on');
+  setTimeout(()=>t.classList.remove('on'),2800);
+}
+const PRESETS={
+  xs:{len:155, w:20.0, thick:3.2, cr:3.5, nd:2.5, nx:62,  ns:20, pr:2.5, sk:-8,  ssc:0.72, sr:3.2,br:2.2,sl:7.0, sg:7,  pp:28, ps:24, md:10.0,mo:0.8,m1:9.0, m2:20.0},
+  sm:{len:195, w:23.5, thick:3.5, cr:4.0, nd:3.0, nx:78,  ns:24, pr:3.0, sk:-10, ssc:0.85, sr:3.2,br:2.2,sl:7.0, sg:8,  pp:35, ps:30, md:12.0,mo:0.9,m1:11.0,m2:26.0},
+  md:{len:235, w:26.5, thick:4.0, cr:5.0, nd:3.5, nx:94,  ns:28, pr:3.6, sk:-11, ssc:0.95, sr:3.2,br:2.2,sl:7.0, sg:10, pp:42, ps:36, md:14.9,mo:1.0,m1:13.0,m2:30.0},
+  lg:{len:275, w:30.0, thick:4.0, cr:5.5, nd:4.0, nx:110, ns:33, pr:4.0, sk:-13, ssc:1.08, sr:3.2,br:2.2,sl:7.0, sg:11, pp:50, ps:44, md:14.9,mo:1.0,m1:15.0,m2:36.0},
+};
+function ap(name){
+  const p=PRESETS[name];
+  Object.entries(p).forEach(([k,v])=>{
+    P[k]=v;
+    const sl=document.getElementById('s-'+k);
+    if(sl) sl.value=UNITLESS.has(k)?v:(v*CONV[unit]).toFixed(6);
+    const vl=document.getElementById('v-'+k);
+    if(vl) vl.value=fmtU(v,k);
+  });
+  rebuild();toast('Preset: '+name);
+}
+function onResize(){
+  const w=vp.clientWidth,h=vp.clientHeight;
+  renderer.setSize(w,h);perspCam.aspect=w/h;perspCam.updateProjectionMatrix();ucam();
+}
+window.addEventListener('resize',onResize);
+function animate(){requestAnimationFrame(animate);renderer.render(scene,camera);}
+onResize();ucam();rebuild();animate();
+</script>
+</body>
+</html>

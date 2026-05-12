@@ -11,8 +11,8 @@ import seniorDesignImg from "@/assets/splint.png";
 const projects = [
   {
     id: 0,
-    title: "Universal Cuff Orthosis Generator",
-    description: "An improved universal cuff design to assist with active grasps such as spearing and pointing.",
+    title: "PalmBand Occupational Therapy Tool Generator",
+    description: "An design inspired by the goal to improve the traditional universal cuff desgin to assist with active grasps such as spearing and pointing.",
     fullDescription: "",
     color: "sage",
     tags: ["CAD (SolidWorks)", "Parametric Modeling", "JavaScript CAD", "3D Printing (Bambu)"],

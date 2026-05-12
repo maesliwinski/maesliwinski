@@ -18,7 +18,7 @@ const projects = [
     tags: ["CAD (SolidWorks)", "Parametric Modeling", "JavaScript CAD", "3D Printing (Bambu)"],
     image: seniorDesignImg,
     organization: "Senior Design Project",
-    link: "/seniordesign",
+    link: "/palmband",
     date: "Spring 2026"
   },
   {

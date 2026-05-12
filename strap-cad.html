@@ -265,7 +265,7 @@
       <div class="stat"><div class="stat-l">Length</div><div class="stat-v" id="st-len">—</div></div>
       <div class="stat"><div class="stat-l">Width</div><div class="stat-v" id="st-w">—</div></div>
       <div class="stat"><div class="stat-l">Thickness</div><div class="stat-v" id="st-t">—</div></div>
-      <div class="stat"><div class="stat-l">Mag Ceiling</div><div class="stat-v">0.45 <span class="stat-u">mm</span></div></div>
+      <div class="stat"><div class="stat-l">Floor / Ceil</div><div class="stat-v">0.45 <span class="stat-u">mm each</span></div></div>
     </div>
     <div class="sec">
       <button class="sec-h open" onclick="togSec(this)">Size Presets <span style="display:inline-block;background:var(--purple);border:1.5px solid var(--ink);border-radius:var(--pill);font-size:9px;font-weight:700;letter-spacing:.06em;padding:2px 9px;vertical-align:middle;margin-left:6px;text-transform:uppercase;">Optional</span><span class="arr">▼</span></button>
@@ -329,9 +329,9 @@
         <div id="mag-controls">
           <div class="callout">In your slicer, you can add a pause right before the final layer of filament is deposited to input the magnets. Filament will deposit over the magnets to imbed them into the print.</div>
           <div class="param"><div class="param-top"><span class="param-name">Magnet Diameter</span><input class="param-val" id="v-md" value="14.9" onchange="fi('md',this.value)"></div><div class="param-desc">Diameter of the cylindrical magnet pocket.</div><input type="range" id="s-md" min="8" max="22" step="0.1" value="14.9" oninput="up('md',this.value)"></div>
-          <div class="param"><div class="param-top"><span class="param-name">Z Offset (pause layer)</span><input class="param-val" id="v-mo" value="1.0" onchange="fi('mo',this.value)"></div><div class="param-desc">Height from bottom face where the pocket starts.</div><input type="range" id="s-mo" min="0" max="3" step="0.05" value="1.0" oninput="up('mo',this.value)"></div>
-          <div class="param"><div class="param-top"><span class="param-name">Pocket Depth (auto)</span><span class="ro-val" id="ro-mz">—</span></div><div class="param-desc">Auto-calculated: Thickness − Z Offset − 0.45 mm ceiling.</div></div>
-          <div class="param"><div class="param-top"><span class="param-name">Cover Extra Thickness</span><input class="param-val" id="v-mre" value="0.45" onchange="fi('mre',this.value)"></div><div class="param-desc">Extra thickness added symmetrically above and below the band over each magnet, tapering back into the rest of the band.</div><input type="range" id="s-mre" min="0" max="2" step="0.05" value="0.45" oninput="up('mre',this.value)"></div>
+          <div class="param"><div class="param-top"><span class="param-name">Z Offset (pause layer)</span><input class="param-val" id="v-mo" value="0.0" onchange="fi('mo',this.value)"></div><div class="param-desc">Height from bottom face where the pocket floor starts (0 = magnet sits flush with bottom face).</div><input type="range" id="s-mo" min="0" max="3" step="0.05" value="0.0" oninput="up('mo',this.value)"></div>
+          <div class="param"><div class="param-top"><span class="param-name">Pocket Depth (auto)</span><span class="ro-val" id="ro-mz">—</span></div><div class="param-desc">Auto-calculated: Thickness + Cover Thickness − 0.9 mm (floor + ceiling). Default = 2.00 mm.</div></div>
+          <div class="param"><div class="param-top"><span class="param-name">Cover Extra Thickness</span><input class="param-val" id="v-mre" value="0.50" onchange="fi('mre',this.value)"></div><div class="param-desc">Extra thickness added symmetrically above and below the band over each magnet, tapering back into the rest of the band.</div><input type="range" id="s-mre" min="0" max="2" step="0.05" value="0.5" oninput="up('mre',this.value)"></div>
         </div>
       </div>
     </div>
@@ -399,16 +399,18 @@ canvas.addEventListener('mousemove',e=>{
 });
 canvas.addEventListener('wheel',e=>{sph.r=Math.max(40,Math.min(1200,sph.r+e.deltaY*0.5));ucam();},{passive:true});
 
-const MAG_CEIL=0.45;
+const MAG_CEIL=0.45;      // effective ceiling above magnet (mm)
+const MAG_EFF_FLOOR=0.45; // effective floor below magnet (mm)
 const P={
   len:265,w:27.82,thick:2.4,cr:5.0,
   nd:3.5,nx:105,ns:30,
   pr:3.8,sk:-12,
   ssc:1.0,sr:3.2,br:2.2,sl:7.0,sg:10,pp:46,ps:40,
-  md:14.9,mo:1.0,m1:14.0,m2:34.217,
-  mre:0.45
+  md:14.9,mo:0.0,m1:14.0,m2:34.217,
+  mre:0.5
 };
-function getMz(){return Math.max(0.1,P.thick-P.mo-MAG_CEIL);}
+// pocketGeo = thick + mre - (MAG_EFF_FLOOR + MAG_CEIL) = 2.4+0.5-0.9 = 2.0mm
+function getMz(){return Math.max(0.1,P.thick+P.mre-(MAG_EFF_FLOOR+MAG_CEIL));}
 let unit='mm';
 const CONV={mm:1, cm:0.1, in:1/25.4};
 const PREC={mm:2, cm:3, in:2};
@@ -528,16 +530,58 @@ function buildShape(){
   return shape;
 }
 function buildGeo(){
-  const shape=buildShape();
-  const{nx,sg,pp,ps}=P;
+  const{nx,sg,pp,ps,thick,mre}=P;
   const{capR,bodyR,bodyL}=safeSlot();
-  shape.holes.push(makeDogboneHole(nx-sg/2,0,capR,bodyR,bodyL));
-  shape.holes.push(makeDogboneHole(nx+sg/2,0,capR,bodyR,bodyL));
-  shape.holes.push(makeDogboneHole(nx+pp,  0,capR,bodyR,bodyL));
-  shape.holes.push(makeDogboneHole(nx+pp+ps,0,capR,bodyR,bodyL));
-  const bev=Math.min(P.cr*0.12,P.thick*0.28,1.2);
-  const geo=new THREE.ExtrudeGeometry(shape,{depth:P.thick,bevelEnabled:true,bevelThickness:bev,bevelSize:bev,bevelSegments:3,curveSegments:32});
+  // Each face moves out by rise; geometry sections are inset so effective = 0.45mm each
+  const rise=mre/2;
+  const floorGeo=Math.max(0.05,MAG_EFF_FLOOR-rise); // geometry floor depth
+  const ceilGeo =Math.max(0.05,MAG_CEIL-rise);       // geometry ceiling depth
+  const pocketGeo=Math.max(0.5,thick-floorGeo-ceilGeo); // geometry pocket depth (~2mm)
+
+  function addSlots(sh){
+    sh.holes.push(makeDogboneHole(nx-sg/2,0,capR,bodyR,bodyL));
+    sh.holes.push(makeDogboneHole(nx+sg/2,0,capR,bodyR,bodyL));
+    sh.holes.push(makeDogboneHole(nx+pp,  0,capR,bodyR,bodyL));
+    sh.holes.push(makeDogboneHole(nx+pp+ps,0,capR,bodyR,bodyL));
+  }
+
+  // Section A: solid floor (slot holes only, no magnet pockets)
+  const shapeA=buildShape(); addSlots(shapeA);
+  const geoA=new THREE.ExtrudeGeometry(shapeA,{depth:floorGeo,bevelEnabled:false,curveSegments:32});
+
+  // Section B: magnet pocket layer (slot holes + circular magnet pockets)
+  const shapeB=buildShape(); addSlots(shapeB);
+  [P.m2,P.m1,P.len-P.m1,P.len-P.m2].forEach(ax=>{
+    const h=new THREE.Path();
+    h.absarc(ax,0,P.md/2,0,Math.PI*2,false);
+    shapeB.holes.push(h);
+  });
+  const geoB=new THREE.ExtrudeGeometry(shapeB,{depth:pocketGeo,bevelEnabled:false,curveSegments:32});
+  geoB.translate(0,0,floorGeo);
+
+  // Section C: solid ceiling (slot holes only, seals pockets from above)
+  const shapeC=buildShape(); addSlots(shapeC);
+  const geoC=new THREE.ExtrudeGeometry(shapeC,{depth:ceilGeo,bevelEnabled:false,curveSegments:32});
+  geoC.translate(0,0,floorGeo+pocketGeo);
+
+  // Merge all three sections into one geometry
+  const [niA,niB,niC]=[geoA,geoB,geoC].map(g=>g.toNonIndexed());
+  const [pA,pB,pC]=[niA,niB,niC].map(g=>g.attributes.position.array);
+  const all=new Float32Array(pA.length+pB.length+pC.length);
+  all.set(pA,0);all.set(pB,pA.length);all.set(pC,pA.length+pB.length);
+  const geo=new THREE.BufferGeometry();
+  geo.setAttribute('position',new THREE.BufferAttribute(all,3));
+
+  // Record Y shift BEFORE centering so magnet visualization stays aligned with holes
+  geo.computeBoundingBox();
+  bandYOff=-((geo.boundingBox.min.y+geo.boundingBox.max.y)/2);
+  const bb=geo.boundingBox;
+  console.log(`[Geo] floorGeo=${floorGeo.toFixed(3)} pocketGeo=${pocketGeo.toFixed(3)} ceilGeo=${ceilGeo.toFixed(3)} | bandYOff=${bandYOff.toFixed(3)}`);
+  console.log(`[Geo] BBox X:${bb.min.x.toFixed(1)}→${bb.max.x.toFixed(1)} Y:${bb.min.y.toFixed(1)}→${bb.max.y.toFixed(1)} Z:${bb.min.z.toFixed(1)}→${bb.max.z.toFixed(1)}`);
+  console.log(`[Geo] Magnet world X (after center): m2=${(P.m2-P.len/2).toFixed(1)} m1=${(P.m1-P.len/2).toFixed(1)} r1=${(P.len-P.m1-P.len/2).toFixed(1)} r2=${(P.len-P.m2-P.len/2).toFixed(1)}`);
+
   geo.center();
+  geo.computeVertexNormals();
   applyMagnetRise(geo);
   return geo;
 }
@@ -546,30 +590,43 @@ function applyMagnetRise(geo){
   const{md,len,m1,m2,mre,thick}=P;
   const re=mre/2,mr=md/2+1.5,tl=Math.max(3,md*0.4),off=-len/2;
   const tz=thick/2,bz=-thick/2,eps=0.001;
+  // Y tapering: rise is strongest within the magnet circle, tapers off outside it.
+  // This prevents palm-rise edge vertices (which are at high Y) from being raised.
+  const yr=md/2,yc=bandYOff;
   const pos=geo.attributes.position;
-  function riseAt(x){
+  function riseAt(x,y){
+    const dy=Math.abs(y-yc);
+    if(dy>=yr+tl)return 0;
+    const yFactor=dy<=yr?1:1-(dy-yr)/tl;
     let r=0;
     [m2,m1,len-m1,len-m2].forEach(ax=>{
       const dx=Math.abs(x-(ax+off));
       if(dx<=mr) r=Math.max(r,re);
       else if(dx<mr+tl) r=Math.max(r,re*(1-(dx-mr)/tl));
     });
-    return r;
+    return r*yFactor;
   }
+  let raised=0,minX=Infinity,maxX=-Infinity;
   for(let i=0;i<pos.count;i++){
-    const r=riseAt(pos.getX(i));
+    const r=riseAt(pos.getX(i),pos.getY(i));
     if(r<0.001)continue;
     const z=pos.getZ(i);
-    if(Math.abs(z-tz)<eps) pos.setZ(i,tz+r);
-    else if(Math.abs(z-bz)<eps) pos.setZ(i,bz-r);
+    if(Math.abs(z-tz)<eps){pos.setZ(i,tz+r);raised++;minX=Math.min(minX,pos.getX(i));maxX=Math.max(maxX,pos.getX(i));}
+    else if(Math.abs(z-bz)<eps){pos.setZ(i,bz-r);raised++;minX=Math.min(minX,pos.getX(i));maxX=Math.max(maxX,pos.getX(i));}
   }
+  console.log(`[MagRise] raised ${raised} verts | X range ${minX.toFixed(1)}→${maxX.toFixed(1)} mm | bandYOff=${bandYOff.toFixed(2)} | yr=${yr.toFixed(2)}`);
   pos.needsUpdate=true;
   geo.computeVertexNormals();
 }
 function buildMagGeos(){
-  const{md,mo,thick,len,m1,m2}=P;
+  const{md,thick,len,m1,m2,mre}=P;
   const mz=getMz(),r=md/2;
-  const zCyl=-thick/2+mo+mz/2,zRing=thick/2+0.5,offset=-len/2;
+  const floorGeo=Math.max(0.05,MAG_EFF_FLOOR-mre/2);
+  // Center of pocket in world Z (pocket spans from -thick/2+floorGeo to -thick/2+floorGeo+mz)
+  const zCyl=-thick/2+floorGeo+mz/2;
+  // Ring indicator sits just above the raised top face
+  const zRing=thick/2+mre/2+0.5;
+  const offset=-len/2;
   const cylGeo=new THREE.CylinderGeometry(r,r,mz,52);cylGeo.rotateX(Math.PI/2);
   const cylMat=new THREE.MeshStandardMaterial({color:theme.magnet,roughness:0.3,metalness:0.6});
   const ringGeo=new THREE.RingGeometry(r*0.68,r,52);
@@ -578,13 +635,14 @@ function buildMagGeos(){
   const meshes=[];
   [m2,m1,len-m1,len-m2].forEach((ax,i)=>{
     const cx=ax+offset;
-    const cyl=new THREE.Mesh(cylGeo.clone(),cylMat);cyl.position.set(cx,0,zCyl);meshes.push(cyl);
-    const ring=new THREE.Mesh(ringGeo.clone(),ringMat);ring.position.set(cx,0,zRing);meshes.push(ring);
+    const cyl=new THREE.Mesh(cylGeo.clone(),cylMat);cyl.position.set(cx,bandYOff,zCyl);meshes.push(cyl);
+    const ring=new THREE.Mesh(ringGeo.clone(),ringMat);ring.position.set(cx,bandYOff,zRing);meshes.push(ring);
     const el=document.getElementById(labels[i]);if(el)el.textContent=fmtU(ax,'len')+' '+unit;
   });
   return meshes;
 }
 let bodyMesh=null,magMeshes=[],xrayOn=false,hcOn=false,magnetsOn=true;
+let bandYOff=0;
 const bodyMat=new THREE.MeshStandardMaterial({color:theme.body,roughness:0.5,metalness:0.05,side:THREE.DoubleSide});
 function applyXray(){bodyMat.transparent=xrayOn;bodyMat.opacity=xrayOn?0.22:1.0;bodyMat.depthWrite=!xrayOn;bodyMat.needsUpdate=true;}
 function applyTheme(){
@@ -612,14 +670,16 @@ function rebuild(){
 }
 function exportSTL(){
   const geo=buildGeo();
-  const ni=geo.index?geo.toNonIndexed():geo,pos=ni.attributes.position;
-  const tc=pos.count/3,buf=new ArrayBuffer(84+tc*50),dv=new DataView(buf);
+  const ni=geo.index?geo.toNonIndexed():geo;
+  const tc=ni.attributes.position.count/3;
+  const buf=new ArrayBuffer(84+tc*50),dv=new DataView(buf);
   const hdr=`CUFF L=${P.len}mm W=${P.w.toFixed(2)}mm T=${P.thick}mm`;
   for(let i=0;i<80;i++)dv.setUint8(i,i<hdr.length?hdr.charCodeAt(i):0);
   dv.setUint32(80,tc,true);
   const vA=new THREE.Vector3(),vB=new THREE.Vector3(),vC=new THREE.Vector3();
   const e1=new THREE.Vector3(),e2=new THREE.Vector3(),n=new THREE.Vector3();
   let off=84;
+  const pos=ni.attributes.position;
   for(let i=0;i<tc;i++){
     vA.fromBufferAttribute(pos,i*3);vB.fromBufferAttribute(pos,i*3+1);vC.fromBufferAttribute(pos,i*3+2);
     e1.subVectors(vB,vA);e2.subVectors(vC,vA);n.crossVectors(e1,e2).normalize();
@@ -686,10 +746,10 @@ function toast(msg){
   setTimeout(()=>t.classList.remove('on'),2800);
 }
 const PRESETS={
-  xs:{len:155, w:20.0, thick:2.4, cr:3.5, nd:2.5, nx:62,  ns:20, pr:2.5, sk:-8,  ssc:0.72, sr:3.2,br:2.2,sl:7.0, sg:7,  pp:28, ps:24, md:10.0,mo:0.8,m1:9.0, m2:20.0,mre:0.45},
-  sm:{len:195, w:23.5, thick:2.4, cr:4.0, nd:3.0, nx:78,  ns:24, pr:3.0, sk:-10, ssc:0.85, sr:3.2,br:2.2,sl:7.0, sg:8,  pp:35, ps:30, md:12.0,mo:0.9,m1:11.0,m2:26.0,mre:0.45},
-  md:{len:235, w:26.5, thick:2.4, cr:5.0, nd:3.5, nx:94,  ns:28, pr:3.6, sk:-11, ssc:0.95, sr:3.2,br:2.2,sl:7.0, sg:10, pp:42, ps:36, md:14.9,mo:1.0,m1:13.0,m2:30.0,mre:0.45},
-  lg:{len:275, w:30.0, thick:2.4, cr:5.5, nd:4.0, nx:110, ns:33, pr:4.0, sk:-13, ssc:1.08, sr:3.2,br:2.2,sl:7.0, sg:11, pp:50, ps:44, md:14.9,mo:1.0,m1:15.0,m2:36.0,mre:0.45},
+  xs:{len:155, w:20.0, thick:2.4, cr:3.5, nd:2.5, nx:62,  ns:20, pr:2.5, sk:-8,  ssc:0.72, sr:3.2,br:2.2,sl:7.0, sg:7,  pp:28, ps:24, md:10.0,mo:0.0,m1:9.0, m2:20.0,mre:0.5},
+  sm:{len:195, w:23.5, thick:2.4, cr:4.0, nd:3.0, nx:78,  ns:24, pr:3.0, sk:-10, ssc:0.85, sr:3.2,br:2.2,sl:7.0, sg:8,  pp:35, ps:30, md:12.0,mo:0.0,m1:11.0,m2:26.0,mre:0.5},
+  md:{len:235, w:26.5, thick:2.4, cr:5.0, nd:3.5, nx:94,  ns:28, pr:3.6, sk:-11, ssc:0.95, sr:3.2,br:2.2,sl:7.0, sg:10, pp:42, ps:36, md:14.9,mo:0.0,m1:13.0,m2:30.0,mre:0.5},
+  lg:{len:275, w:30.0, thick:2.4, cr:5.5, nd:4.0, nx:110, ns:33, pr:4.0, sk:-13, ssc:1.08, sr:3.2,br:2.2,sl:7.0, sg:11, pp:50, ps:44, md:14.9,mo:0.0,m1:15.0,m2:36.0,mre:0.5},
 };
 function ap(name){
   const p=PRESETS[name];

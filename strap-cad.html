@@ -27,7 +27,7 @@
     --grid-c1:  #d6dfcc;
     --grid-c2:  #e8e9d8;
     --body-3d:  0xc4a882;
-    --font-display: 'Agrandir', 'Georgia', 'Times New Roman', serif;
+    --font-display: 'Agrandir', system-ui, -apple-system, 'Segoe UI', sans-serif;
     --sans:    system-ui, -apple-system, 'Segoe UI', sans-serif;
     --radius:  16px;
     --pill:    999px;
@@ -234,14 +234,23 @@
   .size-preset:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
   .sp-label { font-family: var(--font-display); font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 2px; }
   .sp-desc  { font-size: 11px; color: var(--muted); }
+  .toggle-btn {
+    padding: 4px 16px; border-radius: var(--pill);
+    border: 2px solid var(--ink); font-size: 12px;
+    font-weight: 700; cursor: pointer; transition: all .15s;
+    font-family: var(--sans); background: var(--sage); color: var(--ink);
+  }
+  .toggle-btn.off { background: var(--cream2); color: var(--muted); }
+  .toggle-btn:hover { transform: translateY(-1px); }
+  .toggle-btn:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
 </style>
 </head>
 <body>
 <header>
-  <div class="logo">Palm <em>Band</em></div>
+  <div class="logo">Palm<em>Band</em></div>
   <div class="header-btns">
-    <button class="hbtn hbtn-stl" onclick="exportSTL()">⬇ STL</button>
-    <button class="hbtn hbtn-xray" id="btn-xray" onclick="toggleXray()">◎ X-Ray</button>
+    <button class="hbtn hbtn-stl" onclick="exportSTL()">⬇ Download Printable File</button>
+    <button class="hbtn hbtn-xray" id="btn-xray" onclick="toggleXray()">◎ X-Ray to See Magnets</button>
     <button class="hbtn hbtn-hc" id="btn-hc" onclick="toggleHC()" aria-pressed="false" title="High contrast mode for accessibility">◐ High Contrast</button>
   </div>
   <div class="unit-toggle" role="group" aria-label="Units">
@@ -259,31 +268,43 @@
       <div class="stat"><div class="stat-l">Mag Ceiling</div><div class="stat-v">0.45 <span class="stat-u">mm</span></div></div>
     </div>
     <div class="sec">
-      <button class="sec-h open" onclick="togSec(this)">Bar Shape <span class="arr">▼</span></button>
+      <button class="sec-h open" onclick="togSec(this)">Size Presets <span style="display:inline-block;background:var(--purple);border:1.5px solid var(--ink);border-radius:var(--pill);font-size:9px;font-weight:700;letter-spacing:.06em;padding:2px 9px;vertical-align:middle;margin-left:6px;text-transform:uppercase;">Optional</span><span class="arr">▼</span></button>
+      <div class="sec-b">
+        <div style="font-size:11px;color:var(--muted);margin-bottom:10px;line-height:1.5;">Select a size based on the wearer's hand. All dimensions scale proportionally.</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <button class="size-preset" onclick="ap('xs')"><div class="sp-label">XS — Child</div><div class="sp-desc">Ages ~4–8 · small palm · ~155 mm strap</div></button>
+          <button class="size-preset" onclick="ap('sm')"><div class="sp-label">S — Youth / Small Adult</div><div class="sp-desc">Ages ~9–14 or petite adult · ~195 mm strap</div></button>
+          <button class="size-preset" onclick="ap('md')"><div class="sp-label">M — Medium Adult</div><div class="sp-desc">Average adult hand · ~235 mm strap</div></button>
+          <button class="size-preset" onclick="ap('lg')"><div class="sp-label">L — Large Adult</div><div class="sp-desc">Large adult hand · ~275 mm strap</div></button>
+        </div>
+      </div>
+    </div>
+    <div class="sec">
+      <button class="sec-h open" onclick="togSec(this)">Band Shape <span class="arr">▼</span></button>
       <div class="sec-b">
         <div class="param"><div class="param-top"><span class="param-name">Total Length</span><input class="param-val" id="v-len" value="265" onchange="fi('len',this.value)"></div><div class="param-desc">Overall length of the strap from end to end.</div><input type="range" id="s-len" min="150" max="400" step="5" value="265" oninput="up('len',this.value)"></div>
-        <div class="param"><div class="param-top"><span class="param-name">Bar Width</span><input class="param-val" id="v-w" value="27.82" onchange="fi('w',this.value)"></div><div class="param-desc">Width of the flat strap body (across the palm side).</div><input type="range" id="s-w" min="15" max="45" step="0.5" value="27.82" oninput="up('w',this.value)"></div>
-        <div class="param"><div class="param-top"><span class="param-name">Thickness</span><input class="param-val" id="v-thick" value="4.0" onchange="fi('thick',this.value)"></div><div class="param-desc">How tall/thick the printed band is. Affects magnet pocket depth.</div><input type="range" id="s-thick" min="2" max="10" step="0.1" value="4.0" oninput="up('thick',this.value)"></div>
-        <div class="param"><div class="param-top"><span class="param-name">Corner Radius</span><input class="param-val" id="v-cr" value="5.0" onchange="fi('cr',this.value)"></div><div class="param-desc">Rounding on the four corners of each end.</div><input type="range" id="s-cr" min="2" max="12" step="0.5" value="5.0" oninput="up('cr',this.value)"></div>
+        <div class="param"><div class="param-top"><span class="param-name">Band Width</span><input class="param-val" id="v-w" value="27.82" onchange="fi('w',this.value)"></div><div class="param-desc">Width of the flat strap body (across the palm side).</div><input type="range" id="s-w" min="15" max="45" step="0.5" value="27.82" oninput="up('w',this.value)"></div>
+        <div class="param"><div class="param-top"><span class="param-name">Thickness</span><input class="param-val" id="v-thick" value="2.4" onchange="fi('thick',this.value)"></div><div class="param-desc">How tall/thick the printed band is. Affects magnet pocket depth.</div><input type="range" id="s-thick" min="2" max="10" step="0.1" value="2.4" oninput="up('thick',this.value)"></div>
+        <div class="param"><div class="param-top"><span class="param-name">Corner Radius</span><input class="param-val" id="v-cr" value="5.0" onchange="fi('cr',this.value)"></div><div class="param-desc">Rounding on the four outer corners, the inner slot edges, and the overall top/bottom band edges.</div><input type="range" id="s-cr" min="2" max="12" step="0.5" value="5.0" oninput="up('cr',this.value)"></div>
       </div>
     </div>
     <div class="sec">
-      <button class="sec-h open" onclick="togSec(this)">Neck / Waist <span class="arr">▼</span></button>
+      <button class="sec-h open" onclick="togSec(this)">Thumb-Index Finger Webbing Space <span class="arr">▼</span></button>
       <div class="sec-b">
-        <div class="param"><div class="param-top"><span class="param-name">Neck Depth</span><input class="param-val" id="v-nd" value="3.5" onchange="fi('nd',this.value)"></div><div class="param-desc">How much the strap narrows at the waist — applied equally to both edges.</div><input type="range" id="s-nd" min="0.5" max="10" step="0.25" value="3.5" oninput="up('nd',this.value)"></div>
-        <div class="param"><div class="param-top"><span class="param-name">Neck Position</span><input class="param-val" id="v-nx" value="105" onchange="fi('nx',this.value)"></div><div class="param-desc">How far from the left end the center of the waist sits.</div><input type="range" id="s-nx" min="50" max="200" step="2" value="105" oninput="up('nx',this.value)"></div>
-        <div class="param"><div class="param-top"><span class="param-name">Neck Span</span><input class="param-val" id="v-ns" value="30" onchange="fi('ns',this.value)"></div><div class="param-desc">Half-width of the tapered neck region.</div><input type="range" id="s-ns" min="10" max="60" step="1" value="30" oninput="up('ns',this.value)"></div>
+        <div class="param"><div class="param-top"><span class="param-name">Webbing Curvature</span><input class="param-val" id="v-nd" value="3.5" onchange="fi('nd',this.value)"></div><div class="param-desc">How much the strap narrows in-between fingers, applied equally to both edges.</div><input type="range" id="s-nd" min="0.5" max="10" step="0.25" value="3.5" oninput="up('nd',this.value)"></div>
+        <div class="param"><div class="param-top"><span class="param-name">Curvature Position</span><input class="param-val" id="v-nx" value="105" onchange="fi('nx',this.value)"></div><div class="param-desc">How far from the left end the center of the curve sits.</div><input type="range" id="s-nx" min="50" max="200" step="2" value="105" oninput="up('nx',this.value)"></div>
+        <div class="param"><div class="param-top"><span class="param-name">Curvature Span</span><input class="param-val" id="v-ns" value="30" onchange="fi('ns',this.value)"></div><div class="param-desc">Half-width of the tapered region.</div><input type="range" id="s-ns" min="10" max="60" step="1" value="30" oninput="up('ns',this.value)"></div>
       </div>
     </div>
     <div class="sec">
-      <button class="sec-h open" onclick="togSec(this)">Palm Rise (top curve) <span class="arr">▼</span></button>
+      <button class="sec-h open" onclick="togSec(this)">Palm Contour Curve <span class="arr">▼</span></button>
       <div class="sec-b">
         <div class="param"><div class="param-top"><span class="param-name">Rise Height</span><input class="param-val" id="v-pr" value="3.8" onchange="fi('pr',this.value)"></div><div class="param-desc">How high the curved arch rises above the flat band.</div><input type="range" id="s-pr" min="0" max="8" step="0.1" value="3.8" oninput="up('pr',this.value)"></div>
         <div class="param"><div class="param-top"><span class="param-name">Peak Position</span><input class="param-val" id="v-sk" value="-12" onchange="fi('sk',this.value)"></div><div class="param-desc">Shifts the peak of the arch.</div><input type="range" id="s-sk" min="-40" max="80" step="1" value="-12" oninput="up('sk',this.value)"></div>
       </div>
     </div>
     <div class="sec">
-      <button class="sec-h open" onclick="togSec(this)">Slots — 4 Total <span class="arr">▼</span></button>
+      <button class="sec-h open" onclick="togSec(this)">Slots <span class="arr">▼</span></button>
       <div class="sec-b">
         <div class="param"><div class="param-top"><span class="param-name">Slot Scale</span><input class="param-val" id="v-ssc" value="1.00" onchange="fi('ssc',this.value)"></div><div class="param-desc">Uniformly scales all 4 slots up or down.</div><input type="range" id="s-ssc" min="0.4" max="2.0" step="0.05" value="1.0" oninput="up('ssc',this.value)"></div>
         <div class="divlabel">Shape (base)</div>
@@ -297,32 +318,20 @@
       </div>
     </div>
     <div class="sec">
-      <button class="sec-h open" onclick="togSec(this)">Magnet Recesses <span class="arr">▼</span></button>
+      <button class="sec-h open" onclick="togSec(this)">Magnets <span class="arr">▼</span></button>
       <div class="sec-b">
-        <div class="callout"><strong>Print-pause pockets.</strong> Pause at the layer set by Z Offset, drop magnets in, then resume. Pocket depth is auto-calculated so exactly <strong>0.45 mm</strong> of plastic remains above each magnet.</div>
-        <div class="param"><div class="param-top"><span class="param-name">Magnet Diameter</span><input class="param-val" id="v-md" value="14.9" onchange="fi('md',this.value)"></div><div class="param-desc">Diameter of the cylindrical magnet pocket.</div><input type="range" id="s-md" min="8" max="22" step="0.1" value="14.9" oninput="up('md',this.value)"></div>
-        <div class="param"><div class="param-top"><span class="param-name">Z Offset (pause layer)</span><input class="param-val" id="v-mo" value="1.0" onchange="fi('mo',this.value)"></div><div class="param-desc">Height from bottom face where the pocket starts.</div><input type="range" id="s-mo" min="0" max="3" step="0.05" value="1.0" oninput="up('mo',this.value)"></div>
-        <div class="param"><div class="param-top"><span class="param-name">Pocket Depth (auto)</span><span class="ro-val" id="ro-mz">—</span></div><div class="param-desc">Auto-calculated: Thickness − Z Offset − 0.45 mm ceiling.</div></div>
-        <div class="divlabel">Position — mirrored at both ends</div>
-        <div class="param"><div class="param-top"><span class="param-name">Inner Magnet from End</span><input class="param-val" id="v-m1" value="14.0" onchange="fi('m1',this.value)"></div><div class="param-desc">Distance from end of strap to the inner magnet.</div><input type="range" id="s-m1" min="8" max="50" step="0.5" value="14.0" oninput="up('m1',this.value)"></div>
-        <div class="param"><div class="param-top"><span class="param-name">Outer Magnet from End</span><input class="param-val" id="v-m2" value="34.217" onchange="fi('m2',this.value)"></div><div class="param-desc">Distance from end of strap to the outer magnet.</div><input type="range" id="s-m2" min="20" max="70" step="0.1" value="34.217" oninput="up('m2',this.value)"></div>
-      </div>
-      <table class="mag-table" style="margin:0 18px 14px;width:calc(100% - 36px)">
-        <tr><td>Left outer X</td><td id="dm-lo">—</td></tr>
-        <tr><td>Left inner X</td><td id="dm-li">—</td></tr>
-        <tr><td>Right inner X</td><td id="dm-ri">—</td></tr>
-        <tr><td>Right outer X</td><td id="dm-ro">—</td></tr>
-      </table>
-    </div>
-    <div class="sec">
-      <button class="sec-h open" onclick="togSec(this)">Size Presets <span class="arr">▼</span></button>
-      <div class="sec-b">
-        <div style="font-size:11px;color:var(--muted);margin-bottom:10px;line-height:1.5;">Select a size based on the wearer's hand. All dimensions scale proportionally.</div>
-        <div style="display:flex;flex-direction:column;gap:8px;">
-          <button class="size-preset" onclick="ap('xs')"><div class="sp-label">XS — Child</div><div class="sp-desc">Ages ~4–8 · small palm · ~155 mm strap</div></button>
-          <button class="size-preset" onclick="ap('sm')"><div class="sp-label">S — Youth / Small Adult</div><div class="sp-desc">Ages ~9–14 or petite adult · ~195 mm strap</div></button>
-          <button class="size-preset" onclick="ap('md')"><div class="sp-label">M — Medium Adult</div><div class="sp-desc">Average adult hand · ~235 mm strap</div></button>
-          <button class="size-preset" onclick="ap('lg')"><div class="sp-label">L — Large Adult</div><div class="sp-desc">Large adult hand · ~275 mm strap</div></button>
+        <div class="param" style="margin-bottom:14px">
+          <div class="param-top">
+            <span class="param-name">Include Magnets</span>
+            <button class="toggle-btn" id="btn-magnets" onclick="toggleMagnets()">ON</button>
+          </div>
+        </div>
+        <div id="mag-controls">
+          <div class="callout">In your slicer, you can add a pause right before the final layer of filament is deposited to input the magnets. Filament will deposit over the magnets to imbed them into the print.</div>
+          <div class="param"><div class="param-top"><span class="param-name">Magnet Diameter</span><input class="param-val" id="v-md" value="14.9" onchange="fi('md',this.value)"></div><div class="param-desc">Diameter of the cylindrical magnet pocket.</div><input type="range" id="s-md" min="8" max="22" step="0.1" value="14.9" oninput="up('md',this.value)"></div>
+          <div class="param"><div class="param-top"><span class="param-name">Z Offset (pause layer)</span><input class="param-val" id="v-mo" value="1.0" onchange="fi('mo',this.value)"></div><div class="param-desc">Height from bottom face where the pocket starts.</div><input type="range" id="s-mo" min="0" max="3" step="0.05" value="1.0" oninput="up('mo',this.value)"></div>
+          <div class="param"><div class="param-top"><span class="param-name">Pocket Depth (auto)</span><span class="ro-val" id="ro-mz">—</span></div><div class="param-desc">Auto-calculated: Thickness − Z Offset − 0.45 mm ceiling.</div></div>
+          <div class="param"><div class="param-top"><span class="param-name">Cover Extra Thickness</span><input class="param-val" id="v-mre" value="0.45" onchange="fi('mre',this.value)"></div><div class="param-desc">Extra thickness added symmetrically above and below the band over each magnet, tapering back into the rest of the band.</div><input type="range" id="s-mre" min="0" max="2" step="0.05" value="0.45" oninput="up('mre',this.value)"></div>
         </div>
       </div>
     </div>
@@ -331,8 +340,6 @@
     <canvas id="canvas"></canvas>
     <div class="hud">
       <div>PalmBand · Parametric</div>
-      <div>Verts <span class="hv" id="h-v">—</span></div>
-      <div>Tris <span class="hv" id="h-t">—</span></div>
     </div>
     <div class="dimbar">
       <span><span class="dk">L</span><span id="d-l">—</span></span>
@@ -344,8 +351,7 @@
       <button class="vb" onclick="sv('top')" title="Top view">T</button>
       <button class="vb" onclick="sv('front')" title="Front view">F</button>
       <button class="vb" onclick="sv('iso')" title="Isometric">I</button>
-      <button class="vb" onclick="fit()" title="Fit all">⊡</button>
-      <button class="vb" onclick="tortho()" title="Toggle ortho" id="btn-ortho" style="font-size:10px">P</button>
+      <button class="vb" onclick="tortho()" title="P = Perspective: natural 3D depth view" id="btn-ortho" style="font-size:10px">P</button>
     </div>
   </div>
 </div>
@@ -395,16 +401,17 @@ canvas.addEventListener('wheel',e=>{sph.r=Math.max(40,Math.min(1200,sph.r+e.delt
 
 const MAG_CEIL=0.45;
 const P={
-  len:265,w:27.82,thick:4.0,cr:5.0,
+  len:265,w:27.82,thick:2.4,cr:5.0,
   nd:3.5,nx:105,ns:30,
   pr:3.8,sk:-12,
   ssc:1.0,sr:3.2,br:2.2,sl:7.0,sg:10,pp:46,ps:40,
-  md:14.9,mo:1.0,m1:14.0,m2:34.217
+  md:14.9,mo:1.0,m1:14.0,m2:34.217,
+  mre:0.45
 };
 function getMz(){return Math.max(0.1,P.thick-P.mo-MAG_CEIL);}
 let unit='mm';
 const CONV={mm:1, cm:0.1, in:1/25.4};
-const PREC={mm:2, cm:3, in:4};
+const PREC={mm:2, cm:3, in:2};
 const UNITLESS=new Set(['ssc']);
 const SCFG={
   len:{min:150,max:400,step:5}, w:{min:15,max:45,step:0.5},
@@ -416,7 +423,8 @@ const SCFG={
   sl:{min:2,max:16,step:0.5}, sg:{min:4,max:22,step:0.5},
   pp:{min:20,max:120,step:2}, ps:{min:14,max:60,step:1},
   md:{min:8,max:22,step:0.1}, mo:{min:0,max:3,step:0.05},
-  m1:{min:8,max:50,step:0.5}, m2:{min:20,max:70,step:0.1}
+  m1:{min:8,max:50,step:0.5}, m2:{min:20,max:70,step:0.1},
+  mre:{min:0,max:2,step:0.05}
 };
 function fromU(v,id){return UNITLESS.has(id)?v:v/CONV[unit];}
 function fmtU(mm,id){
@@ -527,9 +535,36 @@ function buildGeo(){
   shape.holes.push(makeDogboneHole(nx+sg/2,0,capR,bodyR,bodyL));
   shape.holes.push(makeDogboneHole(nx+pp,  0,capR,bodyR,bodyL));
   shape.holes.push(makeDogboneHole(nx+pp+ps,0,capR,bodyR,bodyL));
-  const geo=new THREE.ExtrudeGeometry(shape,{depth:P.thick,bevelEnabled:true,bevelThickness:0.3,bevelSize:0.3,bevelSegments:2,curveSegments:32});
+  const bev=Math.min(P.cr*0.12,P.thick*0.28,1.2);
+  const geo=new THREE.ExtrudeGeometry(shape,{depth:P.thick,bevelEnabled:true,bevelThickness:bev,bevelSize:bev,bevelSegments:3,curveSegments:32});
   geo.center();
+  applyMagnetRise(geo);
   return geo;
+}
+function applyMagnetRise(geo){
+  if(!P.mre||P.mre<0.01)return;
+  const{md,len,m1,m2,mre,thick}=P;
+  const re=mre/2,mr=md/2+1.5,tl=Math.max(3,md*0.4),off=-len/2;
+  const tz=thick/2,bz=-thick/2,eps=0.001;
+  const pos=geo.attributes.position;
+  function riseAt(x){
+    let r=0;
+    [m2,m1,len-m1,len-m2].forEach(ax=>{
+      const dx=Math.abs(x-(ax+off));
+      if(dx<=mr) r=Math.max(r,re);
+      else if(dx<mr+tl) r=Math.max(r,re*(1-(dx-mr)/tl));
+    });
+    return r;
+  }
+  for(let i=0;i<pos.count;i++){
+    const r=riseAt(pos.getX(i));
+    if(r<0.001)continue;
+    const z=pos.getZ(i);
+    if(Math.abs(z-tz)<eps) pos.setZ(i,tz+r);
+    else if(Math.abs(z-bz)<eps) pos.setZ(i,bz-r);
+  }
+  pos.needsUpdate=true;
+  geo.computeVertexNormals();
 }
 function buildMagGeos(){
   const{md,mo,thick,len,m1,m2}=P;
@@ -549,7 +584,7 @@ function buildMagGeos(){
   });
   return meshes;
 }
-let bodyMesh=null,magMeshes=[],xrayOn=false,hcOn=false;
+let bodyMesh=null,magMeshes=[],xrayOn=false,hcOn=false,magnetsOn=true;
 const bodyMat=new THREE.MeshStandardMaterial({color:theme.body,roughness:0.5,metalness:0.05,side:THREE.DoubleSide});
 function applyXray(){bodyMat.transparent=xrayOn;bodyMat.opacity=xrayOn?0.22:1.0;bodyMat.depthWrite=!xrayOn;bodyMat.needsUpdate=true;}
 function applyTheme(){
@@ -564,20 +599,16 @@ function rebuild(){
   let geo;try{geo=buildGeo();}catch(e){console.error(e);return;}
   applyXray();
   bodyMesh=new THREE.Mesh(geo,bodyMat);scene.add(bodyMesh);
-  magMeshes=buildMagGeos();magMeshes.forEach(m=>scene.add(m));
+  if(magnetsOn){magMeshes=buildMagGeos();magMeshes.forEach(m=>scene.add(m));}
   const mz=getMz();
-  document.getElementById('ro-mz').textContent=fmtU(mz,'thick')+' '+unit;
-  const v=geo.attributes.position.count;
-  const t=Math.round(geo.index?geo.index.count/3:v/3);
-  document.getElementById('h-v').textContent=v.toLocaleString();
-  document.getElementById('h-t').textContent=t.toLocaleString();
+  const roMz=document.getElementById('ro-mz');if(roMz)roMz.textContent=magnetsOn?fmtU(mz,'thick')+' '+unit:'—';
   document.getElementById('st-len').innerHTML=fmtU(P.len,'len')+' <span class="stat-u">'+unit+'</span>';
   document.getElementById('st-w').innerHTML=fmtU(P.w,'w')+' <span class="stat-u">'+unit+'</span>';
   document.getElementById('st-t').innerHTML=fmtU(P.thick,'thick')+' <span class="stat-u">'+unit+'</span>';
   document.getElementById('d-l').textContent=fmtU(P.len,'len')+unit;
   document.getElementById('d-w').textContent=fmtU(P.w,'w')+unit;
   document.getElementById('d-t').textContent=fmtU(P.thick,'thick')+unit;
-  document.getElementById('d-mz').textContent=fmtU(mz,'thick')+unit;
+  document.getElementById('d-mz').textContent=magnetsOn?fmtU(mz,'thick')+unit:'—';
 }
 function exportSTL(){
   const geo=buildGeo();
@@ -607,6 +638,16 @@ function toggleXray(){
   btn.textContent=xrayOn?'◎ X-Ray ON':'◎ X-Ray';
   toast(xrayOn?'X-ray on — purple rings show magnet pocket centers':'X-ray off');
 }
+function toggleMagnets(){
+  magnetsOn=!magnetsOn;
+  const btn=document.getElementById('btn-magnets');
+  btn.textContent=magnetsOn?'ON':'OFF';
+  btn.classList.toggle('off',!magnetsOn);
+  const mc=document.getElementById('mag-controls');
+  if(mc)mc.style.display=magnetsOn?'block':'none';
+  rebuild();
+  toast(magnetsOn?'Magnets included':'Magnets hidden');
+}
 function toggleHC(){
   hcOn=!hcOn;
   document.body.classList.toggle('hc',hcOn);
@@ -621,7 +662,9 @@ function toggleHC(){
 function tortho(){
   useOrtho=!useOrtho;camera=useOrtho?orthoCam:perspCam;
   perspCam.aspect=vp.clientWidth/vp.clientHeight;perspCam.updateProjectionMatrix();
-  document.getElementById('btn-ortho').textContent=useOrtho?'O':'P';
+  const ob=document.getElementById('btn-ortho');
+  ob.textContent=useOrtho?'O':'P';
+  ob.title=useOrtho?'O = Orthographic: flat technical view, no depth distortion — good for checking true proportions':'P = Perspective: natural 3D depth view';
   ucam();
 }
 function sv(v){
@@ -643,10 +686,10 @@ function toast(msg){
   setTimeout(()=>t.classList.remove('on'),2800);
 }
 const PRESETS={
-  xs:{len:155, w:20.0, thick:3.2, cr:3.5, nd:2.5, nx:62,  ns:20, pr:2.5, sk:-8,  ssc:0.72, sr:3.2,br:2.2,sl:7.0, sg:7,  pp:28, ps:24, md:10.0,mo:0.8,m1:9.0, m2:20.0},
-  sm:{len:195, w:23.5, thick:3.5, cr:4.0, nd:3.0, nx:78,  ns:24, pr:3.0, sk:-10, ssc:0.85, sr:3.2,br:2.2,sl:7.0, sg:8,  pp:35, ps:30, md:12.0,mo:0.9,m1:11.0,m2:26.0},
-  md:{len:235, w:26.5, thick:4.0, cr:5.0, nd:3.5, nx:94,  ns:28, pr:3.6, sk:-11, ssc:0.95, sr:3.2,br:2.2,sl:7.0, sg:10, pp:42, ps:36, md:14.9,mo:1.0,m1:13.0,m2:30.0},
-  lg:{len:275, w:30.0, thick:4.0, cr:5.5, nd:4.0, nx:110, ns:33, pr:4.0, sk:-13, ssc:1.08, sr:3.2,br:2.2,sl:7.0, sg:11, pp:50, ps:44, md:14.9,mo:1.0,m1:15.0,m2:36.0},
+  xs:{len:155, w:20.0, thick:2.4, cr:3.5, nd:2.5, nx:62,  ns:20, pr:2.5, sk:-8,  ssc:0.72, sr:3.2,br:2.2,sl:7.0, sg:7,  pp:28, ps:24, md:10.0,mo:0.8,m1:9.0, m2:20.0,mre:0.45},
+  sm:{len:195, w:23.5, thick:2.4, cr:4.0, nd:3.0, nx:78,  ns:24, pr:3.0, sk:-10, ssc:0.85, sr:3.2,br:2.2,sl:7.0, sg:8,  pp:35, ps:30, md:12.0,mo:0.9,m1:11.0,m2:26.0,mre:0.45},
+  md:{len:235, w:26.5, thick:2.4, cr:5.0, nd:3.5, nx:94,  ns:28, pr:3.6, sk:-11, ssc:0.95, sr:3.2,br:2.2,sl:7.0, sg:10, pp:42, ps:36, md:14.9,mo:1.0,m1:13.0,m2:30.0,mre:0.45},
+  lg:{len:275, w:30.0, thick:2.4, cr:5.5, nd:4.0, nx:110, ns:33, pr:4.0, sk:-13, ssc:1.08, sr:3.2,br:2.2,sl:7.0, sg:11, pp:50, ps:44, md:14.9,mo:1.0,m1:15.0,m2:36.0,mre:0.45},
 };
 function ap(name){
   const p=PRESETS[name];

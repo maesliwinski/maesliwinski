@@ -362,7 +362,7 @@ const vp=canvas.parentElement;
 const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
 renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
 
-// Theme-aware colors for 3D scene
+// Theme
 const THEME={
   normal:{ bg:0xfff6ed, grid1:0xd6dfcc, grid2:0xe8e9d8, body:0xc4a882, magnet:0x8a7060, ring:0xbabbdd },
   hc:    { bg:0xffffff, grid1:0x000000, grid2:0x888888, body:0xffff00, magnet:0x000000, ring:0x0000ee }
@@ -572,7 +572,7 @@ function buildGeo(){
   const geo=new THREE.BufferGeometry();
   geo.setAttribute('position',new THREE.BufferAttribute(all,3));
 
-  // Record Y shift BEFORE centering so magnet visualization stays aligned with holes
+  // centering so magnet visualization stays aligned with holes
   geo.computeBoundingBox();
   bandYOff=-((geo.boundingBox.min.y+geo.boundingBox.max.y)/2);
   const bb=geo.boundingBox;

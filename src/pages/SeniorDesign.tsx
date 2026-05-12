@@ -17,7 +17,7 @@ const SeniorDesign = () => {
           >
             <ArrowLeft className="h-6 w-6" />
           </Button>
-          <h1 className="text-4xl md:text-6xl font-agrandir">
+          <h1 className="text-2xl sm:text-4xl md:text-6xl font-agrandir">
             Parametric Design: PalmBand for Occupational Therapists
           </h1>
         </div>

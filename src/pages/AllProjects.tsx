@@ -163,11 +163,11 @@ const AllProjects = () => {
             variant="ghost"
             size="icon"
             onClick={() => navigate("/")}
-            className="rounded-full"
+            className="rounded-full flex-shrink-0"
           >
             <ArrowLeft className="h-6 w-6" />
           </Button>
-          <h1 className="text-5xl md:text-7xl font-agrandir">All Projects</h1>
+          <h1 className="text-4xl sm:text-5xl md:text-7xl font-agrandir">All Projects</h1>
         </div>
 
         <div className="grid grid-cols-1 gap-6">
@@ -175,22 +175,22 @@ const AllProjects = () => {
             <div key={project.id}>
               <div
                 onClick={() => setSelectedProject(selectedProject === project.id ? null : project.id)}
-                className={`p-6 rounded-3xl border-2 transition-all hover:scale-[1.02] hover:shadow-lg animate-scale-in cursor-pointer ${getColorClasses(
+                className={`p-4 sm:p-6 rounded-3xl border-2 transition-all hover:scale-[1.02] hover:shadow-lg animate-scale-in cursor-pointer ${getColorClasses(
                   project.color
                 )}`}
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <div className="flex gap-6 items-start">
-                  <img 
-                    src={project.image} 
+                <div className="flex gap-4 sm:gap-6 items-start">
+                  <img
+                    src={project.image}
                     alt={project.title}
-                    className="w-32 h-32 object-cover rounded-2xl flex-shrink-0"
+                    className="w-20 h-20 sm:w-32 sm:h-32 object-cover rounded-2xl flex-shrink-0"
                   />
-                  <div className="flex-1">
+                  <div className="flex-1 min-w-0">
                     <p className="text-sm text-muted-foreground mb-1">{project.organization}</p>
-                    <div className="flex items-start justify-between gap-4 mb-2 pr-2">
-                      <h3 className="text-2xl font-agrandir">{project.title}</h3>
-                      {project.date && <p className="text-sm text-muted-foreground whitespace-nowrap">{project.date}</p>}
+                    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 sm:gap-4 mb-2 sm:pr-2">
+                      <h3 className="text-xl sm:text-2xl font-agrandir">{project.title}</h3>
+                      {project.date && <p className="text-sm text-muted-foreground sm:whitespace-nowrap">{project.date}</p>}
                     </div>
                     <p className="text-base mb-4">{project.description}</p>
                     <div className="flex flex-wrap gap-2">
@@ -208,7 +208,7 @@ const AllProjects = () => {
               </div>
               
               {selectedProject === project.id && (
-                <div className={`mt-4 p-6 rounded-3xl border-2 animate-fade-in ${getColorClasses(project.color)}`}>
+                <div className={`mt-4 p-4 sm:p-6 rounded-3xl border-2 animate-fade-in ${getColorClasses(project.color)}`}>
                   <div className="space-y-6">
                     <p className="text-base whitespace-pre-line" dangerouslySetInnerHTML={{ 
                       __html: project.fullDescription.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') 

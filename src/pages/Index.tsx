@@ -70,10 +70,10 @@ const Index = () => {
       {/* Hero Section */}
       <section id="home" className="min-h-screen flex flex-col items-center justify-center px-4 relative">
         <div className="text-center space-y-12">
-          <h1 className="text-6xl md:text-8xl font-agrandir font-normal tracking-tight animate-fade-in">
+          <h1 className="text-5xl sm:text-6xl md:text-8xl font-agrandir font-normal tracking-tight animate-fade-in">
             Mae Sliwinski
             <br />
-            <span className="text-3xl md:text-4xl font-light">Engineering Portfolio</span>
+            <span className="text-2xl sm:text-3xl md:text-4xl font-light">Engineering Portfolio</span>
           </h1>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -113,13 +113,13 @@ const Index = () => {
       {/* About Me Section */}
       <section id="about" className="min-h-screen py-20 px-4">
         <div className="max-w-4xl mx-auto space-y-12 animate-fade-in-up">
-          <h2 className="text-5xl md:text-7xl font-agrandir">About Me</h2>
+          <h2 className="text-4xl sm:text-5xl md:text-7xl font-agrandir">About Me</h2>
           
           <div className="flex flex-col md:flex-row gap-8 items-start">
-            <img 
-              src={headshotImg} 
+            <img
+              src={headshotImg}
               alt="Mae Sliwinski"
-              className="w-48 h-48 rounded-full object-cover border-2 border-foreground flex-shrink-0"
+              className="w-36 h-36 sm:w-48 sm:h-48 rounded-full object-cover border-2 border-foreground flex-shrink-0"
             />
             <div className="space-y-6 text-lg flex-1">
               <p>
@@ -167,7 +167,7 @@ const Index = () => {
       {/* Projects Section */}
       <section id="projects" className="min-h-screen py-20 px-4">
         <div className="max-w-6xl mx-auto space-y-12 animate-fade-in-up">
-          <h2 className="text-5xl md:text-7xl font-agrandir">Projects</h2>
+          <h2 className="text-4xl sm:text-5xl md:text-7xl font-agrandir">Projects</h2>
 
           <div className="grid grid-cols-1 gap-6 pt-6">
             {projects.map((project, index) => (
@@ -180,22 +180,22 @@ const Index = () => {
                       setSelectedProject(selectedProject === project.id ? null : project.id);
                     }
                   }}
-                  className={`p-6 rounded-3xl border-2 transition-all hover:scale-[1.02] hover:shadow-lg animate-scale-in cursor-pointer ${getColorClasses(
+                  className={`p-4 sm:p-6 rounded-3xl border-2 transition-all hover:scale-[1.02] hover:shadow-lg animate-scale-in cursor-pointer ${getColorClasses(
                     project.color
                   )}`}
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
-            <div className="flex gap-6 items-start">
-              <img 
-                src={project.image} 
+            <div className="flex gap-4 sm:gap-6 items-start">
+              <img
+                src={project.image}
                 alt={project.title}
-                className="w-32 h-32 object-cover rounded-2xl flex-shrink-0"
+                className="w-20 h-20 sm:w-32 sm:h-32 object-cover rounded-2xl flex-shrink-0"
               />
-              <div className="flex-1">
+              <div className="flex-1 min-w-0">
                 <p className="text-sm text-muted-foreground mb-1">{project.organization}</p>
-                <div className="flex items-start justify-between gap-4 mb-2 pr-2">
-                  <h3 className="text-2xl font-agrandir">{project.title}</h3>
-                  {project.date && <p className="text-sm text-muted-foreground whitespace-nowrap">{project.date}</p>}
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 sm:gap-4 mb-2 sm:pr-2">
+                  <h3 className="text-xl sm:text-2xl font-agrandir">{project.title}</h3>
+                  {project.date && <p className="text-sm text-muted-foreground sm:whitespace-nowrap">{project.date}</p>}
                 </div>
                 <p className="text-base mb-4">{project.description}</p>
                       <div className="flex flex-wrap gap-2">
@@ -213,7 +213,7 @@ const Index = () => {
                 </div>
                 
                 {selectedProject === project.id && 'fullDescription' in project && project.fullDescription && (
-                  <div className={`mt-4 p-6 rounded-3xl border-2 animate-fade-in ${getColorClasses(project.color)}`}>
+                  <div className={`mt-4 p-4 sm:p-6 rounded-3xl border-2 animate-fade-in ${getColorClasses(project.color)}`}>
                     <div className="space-y-6">
                       <p className="text-base whitespace-pre-line">{project.fullDescription}</p>
                       
@@ -243,16 +243,16 @@ const Index = () => {
       {/* CV Section */}
       <section id="cv" className="min-h-screen py-20 px-4">
         <div className="max-w-4xl mx-auto space-y-12 animate-fade-in-up">
-          <h2 className="text-5xl md:text-7xl font-agrandir">Curriculum Vitae</h2>
+          <h2 className="text-4xl sm:text-5xl md:text-7xl font-agrandir">Curriculum Vitae</h2>
 
           {/* Experience */}
           <div className="space-y-8">
             <h3 className="text-3xl font-agrandir">Experience</h3>
             
             <div className="space-y-6">
-              <div className="p-6 rounded-3xl bg-sage/20 border-2 border-sage">
-                <div className="flex flex-col sm:flex-row justify-between mb-2">
-                  <h4 className="text-2xl font-agrandir">Project Team Manager</h4>
+              <div className="p-4 sm:p-6 rounded-3xl bg-sage/20 border-2 border-sage">
+                <div className="flex flex-col sm:flex-row sm:justify-between mb-2">
+                  <h4 className="text-xl sm:text-2xl font-agrandir">Project Team Manager</h4>
                   <span className="text-muted-foreground">Dec 2022 - Present</span>
                 </div>
                 <p className="text-lg mb-2">Cornell Assistive Technologies Student Project Team</p>
@@ -265,9 +265,9 @@ const Index = () => {
                 </ul>
               </div>
 
-              <div className="p-6 rounded-3xl bg-purple/20 border-2 border-purple">
-                <div className="flex flex-col sm:flex-row justify-between mb-2">
-                  <h4 className="text-2xl font-agrandir">Research Assistant</h4>
+              <div className="p-4 sm:p-6 rounded-3xl bg-purple/20 border-2 border-purple">
+                <div className="flex flex-col sm:flex-row sm:justify-between mb-2">
+                  <h4 className="text-xl sm:text-2xl font-agrandir">Research Assistant</h4>
                   <span className="text-muted-foreground">Nov 2023 - Dec 2025</span>
                 </div>
                 <p className="text-lg mb-2">Organic Robotics Lab</p>
@@ -279,9 +279,9 @@ const Index = () => {
                 </ul>
               </div>
 
-              <div className="p-6 rounded-3xl bg-blue/20 border-2 border-blue">
-                <div className="flex flex-col sm:flex-row justify-between mb-2">
-                  <h4 className="text-2xl font-agrandir">Operations Engineering Internship</h4>
+              <div className="p-4 sm:p-6 rounded-3xl bg-blue/20 border-2 border-blue">
+                <div className="flex flex-col sm:flex-row sm:justify-between mb-2">
+                  <h4 className="text-xl sm:text-2xl font-agrandir">Operations Engineering Internship</h4>
                   <span className="text-muted-foreground">Jun 2025 - Aug 2025</span>
                 </div>
                 <p className="text-lg mb-2">Amazon</p>
@@ -294,9 +294,9 @@ const Index = () => {
                 </ul>
               </div>
 
-              <div className="p-6 rounded-3xl bg-orange/20 border-2 border-orange">
-                <div className="flex flex-col sm:flex-row justify-between mb-2">
-                  <h4 className="text-2xl font-agrandir">Machinist Crew Member</h4>
+              <div className="p-4 sm:p-6 rounded-3xl bg-orange/20 border-2 border-orange">
+                <div className="flex flex-col sm:flex-row sm:justify-between mb-2">
+                  <h4 className="text-xl sm:text-2xl font-agrandir">Machinist Crew Member</h4>
                   <span className="text-muted-foreground">Sep 2024 - May 2025</span>
                 </div>
                 <p className="text-lg mb-2">Manufacturing Learning Studio</p>
@@ -313,9 +313,9 @@ const Index = () => {
           <div className="space-y-8">
             <h3 className="text-3xl font-agrandir">Education</h3>
             
-            <div className="p-6 rounded-3xl bg-sage/20 border-2 border-sage">
-              <div className="flex flex-col sm:flex-row justify-between mb-2">
-                <h4 className="text-2xl font-agrandir">B.S. Mechanical Engineering</h4>
+            <div className="p-4 sm:p-6 rounded-3xl bg-sage/20 border-2 border-sage">
+              <div className="flex flex-col sm:flex-row sm:justify-between mb-2">
+                <h4 className="text-xl sm:text-2xl font-agrandir">B.S. Mechanical Engineering</h4>
                 <span className="text-muted-foreground">Aug 2022 - May 2026</span>
               </div>
               <p className="text-lg mb-2">Cornell University, College of Engineering</p>
@@ -328,19 +328,19 @@ const Index = () => {
             <h3 className="text-3xl font-agrandir">Skills</h3>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="p-6 rounded-3xl bg-purple/20 border-2 border-purple">
+              <div className="p-4 sm:p-6 rounded-3xl bg-purple/20 border-2 border-purple">
                 <h4 className="text-xl font-agrandir mb-3">CAD & Design</h4>
                 <p className="text-base">Autodesk (Inventor, Fusion 360, AutoCAD Revit), SolidWorks, Ansys, Adobe (InDesign, Photoshop)</p>
               </div>
-              <div className="p-6 rounded-3xl bg-blue/20 border-2 border-blue">
+              <div className="p-4 sm:p-6 rounded-3xl bg-blue/20 border-2 border-blue">
                 <h4 className="text-xl font-agrandir mb-3">Manufacturing</h4>
                 <p className="text-base">Rapid Prototyping, 3D Printing (Prusa, Figure 4, Bambu), Machining (mill, CNC lathe, band saw), DFM</p>
               </div>
-              <div className="p-6 rounded-3xl bg-orange/20 border-2 border-orange">
+              <div className="p-4 sm:p-6 rounded-3xl bg-orange/20 border-2 border-orange">
                 <h4 className="text-xl font-agrandir mb-3">Programming</h4>
                 <p className="text-base">MATLAB, Python, LabVIEW, Arduino C++, JavaScript, PCB Design</p>
               </div>
-              <div className="p-6 rounded-3xl bg-sage/20 border-2 border-sage">
+              <div className="p-4 sm:p-6 rounded-3xl bg-sage/20 border-2 border-sage">
                 <h4 className="text-xl font-agrandir mb-3">Management & Analysis</h4>
                 <p className="text-base">Project Management, Lean Six Sigma, FEA, Microsoft Office Suite (Excel VBA, Word, PowerPoint)</p>
               </div>

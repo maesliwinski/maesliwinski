@@ -1,6 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import printStep3 from "@/assets/print-step3-settings.png";
+import printStep5 from "@/assets/print-step5-pause.png";
+import printStep7 from "@/assets/print-step7-slice.png";
 
 const SeniorDesign = () => {
   const navigate = useNavigate();
@@ -69,7 +72,7 @@ const SeniorDesign = () => {
           </div>
 
           {/* Steps */}
-          <div className="space-y-4">
+          <div className="space-y-6">
             {[
               {
                 step: 1,
@@ -77,11 +80,12 @@ const SeniorDesign = () => {
               },
               {
                 step: 2,
-                text: "Open Bambu Slicer and click File > Import.",
+                text: 'Open Bambu Studio and click File > Import > Import 3MF/STL/STEP/SVG/OBJ/AMF…',
               },
               {
                 step: 3,
                 text: 'Toggle on "Advanced" Settings if you have not already. There you can change the infill pattern and infill percentage, which affects thickness. Refer to the orange text in the CAD viewer for the values I found to be ideal.',
+                image: printStep3,
               },
               {
                 step: 4,
@@ -90,6 +94,7 @@ const SeniorDesign = () => {
               {
                 step: 5,
                 text: "On the side bar, scroll down until you see the last layer before filament is deposited over the magnet hole. Right-click and select Add Pause.",
+                image: printStep5,
               },
               {
                 step: 6,
@@ -98,6 +103,7 @@ const SeniorDesign = () => {
               {
                 step: 7,
                 text: 'Click "Print Plate".',
+                image: printStep7,
               },
               {
                 step: 8,
@@ -107,12 +113,21 @@ const SeniorDesign = () => {
                 step: 9,
                 text: "Once the magnets are in, unpause the print and allow it to finish.",
               },
-            ].map(({ step, text }) => (
-              <div key={step} className="flex gap-4 items-start">
-                <span className="flex-shrink-0 w-8 h-8 rounded-full bg-orange/30 border-2 border-orange flex items-center justify-center text-sm font-bold">
-                  {step}
-                </span>
-                <p className="text-base pt-1">{text}</p>
+            ].map(({ step, text, image }) => (
+              <div key={step} className="space-y-3">
+                <div className="flex gap-4 items-start">
+                  <span className="flex-shrink-0 w-8 h-8 rounded-full bg-orange/30 border-2 border-orange flex items-center justify-center text-sm font-bold">
+                    {step}
+                  </span>
+                  <p className="text-base pt-1">{text}</p>
+                </div>
+                {image && (
+                  <img
+                    src={image}
+                    alt={`Step ${step} screenshot`}
+                    className="ml-12 rounded-2xl border border-border max-w-full sm:max-w-md"
+                  />
+                )}
               </div>
             ))}
           </div>

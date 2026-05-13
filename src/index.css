@@ -88,8 +88,36 @@ All colors MUST be HSL.
     font-family: system-ui, -apple-system, sans-serif;
     overflow-x: hidden;
   }
-  
+
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Agrandir', system-ui, -apple-system, sans-serif;
   }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes gallery-border-pulse {
+  0%, 100% { border-color: hsl(78 24% 65%); box-shadow: 0 0 0 0 hsl(78 24% 65% / 0.3); }
+  50% { border-color: hsl(28 85% 65%); box-shadow: 0 0 0 6px hsl(28 85% 65% / 0); }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.animate-fade-in-up-delay {
+  animation: fade-in-up 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
+}
+
+.gallery-animated-frame {
+  animation: gallery-border-pulse 3.5s ease-in-out infinite;
 }

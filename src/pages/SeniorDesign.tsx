@@ -5,10 +5,10 @@ import { useEffect, useRef, useState } from "react";
 import printStep3 from "@/assets/print-step3-settings.png";
 import printStep5 from "@/assets/print-step5-pause.png";
 import printStep7 from "@/assets/print-step7-slice.png";
-import palmband1 from "@/assets/palmband-action-1.jpg";
-import palmband2 from "@/assets/palmband-action-2.jpg";
-import palmband3 from "@/assets/palmband-action-3.jpg";
-import palmband4 from "@/assets/palmband-action-4.jpg";
+import palmband1 from "@/assets/palmband-action-1.png";
+import palmband2 from "@/assets/palmband-action-2.png";
+import palmband3 from "@/assets/palmband-action-3.png";
+import palmband4 from "@/assets/palmband-action-4.png";
 
 function useScrollReveal() {
   const ref = useRef<HTMLDivElement>(null);
@@ -115,7 +115,7 @@ const SeniorDesign = () => {
           </p>
 
           {/* Materials */}
-          <div className="p-4 sm:p-6 rounded-3xl bg-sage/20 border-2 border-sage space-y-3">
+          <div className="p-4 sm:p-6 rounded-3xl bg-sage/20 border-2 border-sage space-y-3 relative">
             <h3 className="text-xl font-agrandir">Recommended Materials</h3>
             <ul className="space-y-2 text-base">
               <li>
@@ -141,7 +141,13 @@ const SeniorDesign = () => {
                 </a>
                 {" "} but any brand of TPU 95A will work
               </li>
+              <li>
+                <strong>Adhesive Velcro </strong>
+                for extra security{" "}
+                <span className="text-muted-foreground">(Optional)</span>
+              </li>
             </ul>
+            <p className="text-sm text-muted-foreground text-right">~$0.99 per PalmBand</p>
           </div>
 
           {/* Steps */}

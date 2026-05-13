@@ -38,7 +38,7 @@ const SeniorDesign = () => {
           <h2 className="text-3xl sm:text-4xl font-agrandir">How to Print</h2>
 
           <p className="text-base text-muted-foreground">
-            Load filament into the printer following the prompts on the screen, and make sure the correct filament is selected in your slicer. For this device I recommend <strong>TPU 95A</strong> — the flexibility makes the band comfortable and the magnet pocket secure.
+            Load filament into the printer following the prompts on the screen, and make sure the correct filament is selected in your slicer. For this device I recommend <strong>TPU 95A</strong> as the flexibility makes the band comfortable. It will feel similar to the sole of a rubber shoe.
           </p>
 
           {/* Materials */}
@@ -46,7 +46,7 @@ const SeniorDesign = () => {
             <h3 className="text-xl font-agrandir">Recommended Materials</h3>
             <ul className="space-y-2 text-base">
               <li>
-                <strong>Magnets — </strong>
+                <strong>Magnets </strong>
                 <a
                   href="https://www.amazon.com/TRYMAG-Neodymium-Magnets-Whitboard-Scientific/dp/B09XV87SV6?th=1"
                   target="_blank"
@@ -57,7 +57,7 @@ const SeniorDesign = () => {
                 </a>
               </li>
               <li>
-                <strong>TPU 95A Filament — </strong>
+                <strong>TPU 95A Filament </strong>
                 <a
                   href="https://www.amazon.com/SUNLU-TPU-Filament-1-75mm-Flexible/dp/B0BXNWK6NS?ref_=ast_sto_dp&th=1"
                   target="_blank"
@@ -66,7 +66,7 @@ const SeniorDesign = () => {
                 >
                   SUNLU TPU 95A 1.75mm (Amazon)
                 </a>
-                {" "}— any brand of TPU 95A will work
+                {" "} but any brand of TPU 95A will work
               </li>
             </ul>
           </div>
@@ -107,7 +107,7 @@ const SeniorDesign = () => {
               },
               {
                 step: 8,
-                text: "The printer will automatically pause. Set a timer and come back to insert the magnets into the print — all facing the same direction. When you fold the band over, the opposite poles will attract.",
+                text: "The printer will automatically pause. Set a timer and come back to insert the magnets into the print. Make sure they are all facing the same direction, so when you fold the band over, the opposite poles will attract.",
               },
               {
                 step: 9,
